@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#FBF8F1;color:#3B372F;font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+  ::placeholder{color:#9C9384;}
+</style>
+</helmet>
+
+<div style="min-width:0;">
+
+  <!-- ============ HEADER (közös komponens) ============ -->
+  <dc-import name="SiteHeader" active="home" hint-size="100%,64px"></dc-import>
+
+  <!-- ============ HERO ============ -->
+  <section id="top" style="scroll-margin-top:84px;">
+    <div style="max-width:1180px;margin:0 auto;padding:76px 24px 60px;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#5C7285;background:#E4EAF0;padding:7px 14px;border-radius:999px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#7C93A6;"></span>MI hír- és teendőasszisztens
+        </div>
+        <h1 style="font-family:'Quicksand';font-size:52px;line-height:1.06;font-weight:700;letter-spacing:-.025em;margin:22px 0 18px;">Mi újság ma?<br>Foglald össze a napod <span style="color:#5C7285;">5 perc</span> alatt.</h1>
+        <p style="font-size:19px;color:#6E665A;max-width:520px;margin:0 0 30px;">A mizujs.hu naponta összegyűjti és lényegre törően összefoglalja a számodra fontos híreket, és rendben tartja a teendőidet — a böngészőben és Telegramon is.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+          <a href="#regisztracio" style="padding:14px 26px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 8px 20px rgba(92,114,133,.28);" style-hover="background:#5C7285;">Kipróbálom ingyen</a>
+          <a href="#hogyan" style="padding:13px 24px;border-radius:999px;border:1.5px solid #C9D6E1;background:#fff;color:#5C7285;font-weight:700;font-size:16px;text-decoration:none;" style-hover="background:#E4EAF0;border-color:#7C93A6;">Hogyan működik</a>
+        </div>
+        <div style="margin-top:22px;font-size:13.5px;color:#9C9384;font-weight:700;">Ingyenes indulás &nbsp;•&nbsp; Bankkártya nélkül &nbsp;•&nbsp; Bármikor lemondható</div>
+      </div>
+      <div style="position:relative;">
+        <div style="position:absolute;inset:-18px -18px auto auto;width:150px;height:150px;background:#C9D6E1;border-radius:50%;filter:blur(6px);opacity:.5;z-index:0;"></div>
+        <div style="position:relative;z-index:1;background:#fff;border:1px solid #E7DDCB;border-radius:24px;padding:14px;box-shadow:0 24px 60px rgba(59,55,47,.14);">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:4px 6px 12px;">
+            <div style="display:flex;align-items:center;gap:7px;">
+              <button onClick="{{ setMsg0 }}" title="1. üzenet" style="{{ dot0 }}"></button>
+              <button onClick="{{ setMsg1 }}" title="2. üzenet" style="{{ dot1 }}"></button>
+              <button onClick="{{ setMsg2 }}" title="3. üzenet" style="{{ dot2 }}"></button>
+            </div>
+            <span style="font-size:12px;color:#9C9384;font-weight:700;">reggeli összefoglaló · {{ msgIndexLabel }}</span>
+          </div>
+          <div style="height:384px;overflow-y:auto;border:1px solid #EBE1D0;border-radius:16px;background:#FBF8F1;padding:20px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">
+              <div style="width:30px;height:30px;border-radius:8px;background:#7C93A6;display:flex;align-items:flex-end;justify-content:center;gap:1px;padding-bottom:6px;flex:none;">
+                <span style="font-family:'Quicksand';font-weight:700;font-size:15px;line-height:1;color:#fff;">M</span>
+                <span style="display:flex;flex-direction:column;align-items:center;gap:1.5px;"><span style="width:4px;height:4px;border-radius:50%;background:#C9D6E1;"></span><span style="width:3px;height:8px;border-radius:1.5px;background:#C9D6E1;"></span></span>
+              </div>
+              <div>
+                <div style="font-weight:800;font-size:13px;line-height:1.2;">mizujs.hu</div>
+                <div style="font-size:11px;color:#9C9384;">{{ active.date }}</div>
+              </div>
+            </div>
+
+            <div style="font-family:'Quicksand';font-weight:700;font-size:19px;margin-bottom:5px;">{{ active.greeting }}</div>
+            <p style="font-size:14px;color:#6E665A;margin:0 0 20px;line-height:1.55;">{{ active.intro }}</p>
+
+            <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5C7285;margin-bottom:10px;">Mai teendőid</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px;">
+              <sc-for list="{{ active.todos }}" as="t" hint-placeholder-count="3">
+                <div style="display:flex;align-items:flex-start;gap:10px;">
+                  <span style="width:16px;height:16px;border-radius:5px;border:2px solid #C9D6E1;background:#fff;flex:none;margin-top:2px;"></span>
+                  <span style="font-size:14px;color:#3B372F;line-height:1.4;">{{ t }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5C7285;margin-bottom:10px;">A naptáradban</div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px;">
+              <sc-for list="{{ active.events }}" as="e" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:11px;">
+                  <span style="font-size:12px;font-weight:800;color:#5C7285;background:#E4EAF0;padding:3px 10px;border-radius:999px;flex:none;font-variant-numeric:tabular-nums;">{{ e.time }}</span>
+                  <span style="font-size:14px;color:#3B372F;">{{ e.title }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5C7285;margin-bottom:10px;">Neked válogatott hírek</div>
+            <div style="display:flex;flex-direction:column;gap:13px;">
+              <sc-for list="{{ active.news }}" as="n" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:4px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#5C7285;background:#E4EAF0;padding:2px 8px;border-radius:999px;">{{ n.cat }}</span>
+                    <span style="font-size:11px;color:#9C9384;">{{ n.source }}</span>
+                  </div>
+                  <div style="font-size:14px;font-weight:700;color:#3B372F;line-height:1.35;">{{ n.title }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FUNKCIÓK ============ -->
+  <section id="funkciok" style="scroll-margin-top:84px;">
+    <div style="max-width:1180px;margin:0 auto;padding:64px 24px;">
+      <div style="text-align:center;max-width:640px;margin:0 auto 44px;">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Az irányok</div>
+        <h2 style="font-family:'Quicksand';font-size:38px;font-weight:700;letter-spacing:-.02em;margin:12px 0 10px;">Három eszköz, egy nyugodt reggel</h2>
+        <p style="font-size:17px;color:#6E665A;margin:0;">Minden, amivel gyorsabban képbe kerülsz — és rendben marad a napod.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 36px rgba(59,55,47,.10);">
+          <div style="width:52px;height:52px;border-radius:15px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;margin-bottom:18px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+          </div>
+          <h3 style="font-family:'Quicksand';font-size:21px;font-weight:700;margin:0 0 8px;">Hírgyűjtő</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0 0 16px;">Az MI a te forrásaidból és témáidból készít rövid, olvasható összefoglalót. Nincs több végtelen görgetés.</p>
+          <a href="#regisztracio" style="font-weight:800;font-size:14px;color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">Részletek →</a>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 36px rgba(59,55,47,.10);">
+          <div style="width:52px;height:52px;border-radius:15px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;margin-bottom:18px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <h3 style="font-family:'Quicksand';font-size:21px;font-weight:700;margin:0 0 8px;">Teendők</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0 0 16px;">Jegyzetek, listák és emlékeztetők egy helyen. Ami fontos, nem vész el a hírfolyamban.</p>
+          <a href="#regisztracio" style="font-weight:800;font-size:14px;color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">Részletek →</a>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;transition:transform .18s,box-shadow .18s;" style-hover="transform:translateY(-4px);box-shadow:0 16px 36px rgba(59,55,47,.10);">
+          <div style="width:52px;height:52px;border-radius:15px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;margin-bottom:18px;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          </div>
+          <h3 style="font-family:'Quicksand';font-size:21px;font-weight:700;margin:0 0 8px;">Telegram bot</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0 0 16px;">Kérdezz, ments cikket, kapj értesítést ott, ahol úgyis ott vagy — a Telegram chatben.</p>
+          <a href="#regisztracio" style="font-weight:800;font-size:14px;color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">Részletek →</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOGYAN MŰKÖDIK ============ -->
+  <section id="hogyan" style="scroll-margin-top:84px;background:#F7F1E6;border-top:1px solid #E7DDCB;border-bottom:1px solid #E7DDCB;">
+    <div style="max-width:1180px;margin:0 auto;padding:66px 24px;">
+      <div style="max-width:640px;margin:0 auto 46px;text-align:center;">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Hogyan működik</div>
+        <h2 style="font-family:'Quicksand';font-size:38px;font-weight:700;letter-spacing:-.02em;margin:12px 0 10px;">Három lépés, és kész</h2>
+        <p style="font-size:17px;color:#6E665A;margin:0;">Öt perc beállítás, utána minden reggel megérkezik a lényeg.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;">
+          <div style="font-family:'Quicksand';font-weight:700;font-size:40px;color:#C9D6E1;line-height:1;margin-bottom:14px;">01</div>
+          <h3 style="font-family:'Quicksand';font-size:19px;font-weight:700;margin:0 0 7px;">Állítsd be a forrásaid</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0;">Válaszd ki a témákat, hírforrásokat és az időzítést — pár kattintás az egész.</p>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;">
+          <div style="font-family:'Quicksand';font-weight:700;font-size:40px;color:#C9D6E1;line-height:1;margin-bottom:14px;">02</div>
+          <h3 style="font-family:'Quicksand';font-size:19px;font-weight:700;margin:0 0 7px;">Az MI összefoglal</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0;">Reggelre elkészül a személyre szabott, lényegre törő kivonat.</p>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;">
+          <div style="font-family:'Quicksand';font-weight:700;font-size:40px;color:#C9D6E1;line-height:1;margin-bottom:14px;">03</div>
+          <h3 style="font-family:'Quicksand';font-size:19px;font-weight:700;margin:0 0 7px;">Olvasd, mentsd, oszd meg</h3>
+          <p style="font-size:15px;color:#6E665A;margin:0;">Böngészőben vagy Telegramon, ahogy épp kényelmes — a napod is ott van mellette.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ VÉLEMÉNYEK ============ -->
+  <section id="velemenyek" style="scroll-margin-top:84px;">
+    <div style="max-width:1180px;margin:0 auto;padding:66px 24px;">
+      <div style="text-align:center;margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Vélemények</div>
+        <h2 style="font-family:'Quicksand';font-size:38px;font-weight:700;letter-spacing:-.02em;margin:12px 0 4px;">Már reggelente velük tartunk</h2>
+      </div>
+
+      <!-- logo strip -->
+      <div style="margin:26px 0 46px;">
+        <div style="text-align:center;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9C9384;margin-bottom:18px;">Írtak rólunk</div>
+        <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;">
+          <image-slot id="lp-logo-1" style="display:block;width:132px;height:44px;" shape="rounded" radius="8" placeholder="logó"></image-slot>
+          <image-slot id="lp-logo-2" style="display:block;width:132px;height:44px;" shape="rounded" radius="8" placeholder="logó"></image-slot>
+          <image-slot id="lp-logo-3" style="display:block;width:132px;height:44px;" shape="rounded" radius="8" placeholder="logó"></image-slot>
+          <image-slot id="lp-logo-4" style="display:block;width:132px;height:44px;" shape="rounded" radius="8" placeholder="logó"></image-slot>
+          <image-slot id="lp-logo-5" style="display:block;width:132px;height:44px;" shape="rounded" radius="8" placeholder="logó"></image-slot>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:18px;">
+          <div style="display:flex;gap:3px;color:#7C93A6;">★★★★★</div>
+          <p style="font-size:16px;color:#3B372F;margin:0;line-height:1.6;flex:1;">„Végre nem 20 híroldalt nyitok meg reggel. Egy összefoglaló, és képben vagyok a fontos dolgokkal."</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <image-slot id="lp-avatar-1" style="display:block;width:48px;height:48px;flex:none;" shape="circle" placeholder="foto"></image-slot>
+            <div><div style="font-weight:800;font-size:15px;">Nagy Eszter</div><div style="font-size:13px;color:#9C9384;">terméktulajdonos</div></div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:18px;">
+          <div style="display:flex;gap:3px;color:#7C93A6;">★★★★★</div>
+          <p style="font-size:16px;color:#3B372F;margin:0;line-height:1.6;flex:1;">„A Telegram bot zseniális — útközben elmentem a cikkeket, este pedig nyugodtan elolvasom őket."</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <image-slot id="lp-avatar-2" style="display:block;width:48px;height:48px;flex:none;" shape="circle" placeholder="foto"></image-slot>
+            <div><div style="font-weight:800;font-size:15px;">Kovács Márk</div><div style="font-size:13px;color:#9C9384;">újságíró</div></div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:18px;">
+          <div style="display:flex;gap:3px;color:#7C93A6;">★★★★★</div>
+          <p style="font-size:16px;color:#3B372F;margin:0;line-height:1.6;flex:1;">„A teendők és a hírek végre egy helyen. Pontosan ezt a nyugalmat kerestem a reggeleimbe."</p>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <image-slot id="lp-avatar-3" style="display:block;width:48px;height:48px;flex:none;" shape="circle" placeholder="foto"></image-slot>
+            <div><div style="font-weight:800;font-size:15px;">Szabó Réka</div><div style="font-size:13px;color:#9C9384;">marketing vezető</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KAPCSOLAT ============ -->
+  <section id="kapcsolat" style="scroll-margin-top:84px;background:#F7F1E6;border-top:1px solid #E7DDCB;">
+    <div id="regisztracio" style="max-width:1180px;margin:0 auto;padding:66px 24px;display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start;scroll-margin-top:84px;">
+
+      <div>
+        <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Kapcsolat</div>
+        <h2 style="font-family:'Quicksand';font-size:38px;font-weight:700;letter-spacing:-.02em;margin:12px 0 12px;">Beszéljünk!</h2>
+        <p style="font-size:17px;color:#6E665A;max-width:420px;margin:0 0 28px;">Kérdésed van, vagy szeretnél többet megtudni a mizujs.hu-ról? Írj nekünk, és 1 munkanapon belül válaszolunk.</p>
+
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:12px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;flex:none;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+            </div>
+            <div><div style="font-size:12px;color:#9C9384;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">E-mail</div><div style="font-weight:700;font-size:16px;">hello@mizujs.hu</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:12px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;flex:none;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            </div>
+            <div><div style="font-size:12px;color:#9C9384;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Telefon</div><div style="font-weight:700;font-size:16px;">+36 1 234 5678</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- form card -->
+      <div style="background:#fff;border:1px solid #E7DDCB;border-radius:24px;padding:30px;box-shadow:0 12px 34px rgba(59,55,47,.08);">
+        <sc-if value="{{ formHidden }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:26px 10px;">
+            <div style="width:62px;height:62px;border-radius:50%;background:#E6F0DF;display:grid;place-items:center;margin:0 auto 16px;color:#5E8A57;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h3 style="font-family:'Quicksand';font-size:24px;font-weight:700;margin:0 0 8px;">Köszönjük!</h3>
+            <p style="font-size:15px;color:#6E665A;margin:0 0 22px;max-width:340px;margin-left:auto;margin-right:auto;">Megkaptuk az üzeneted, és 1 munkanapon belül jelentkezünk a megadott elérhetőségen.</p>
+            <button onClick="{{ reset }}" style="padding:11px 22px;border:1.5px solid #C9D6E1;border-radius:999px;background:#fff;color:#5C7285;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer;" style-hover="background:#E4EAF0;">Új üzenet írása</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ formShown }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h3 style="font-family:'Quicksand';font-size:22px;font-weight:700;margin:0 0 4px;">Kezdd el ingyen</h3>
+            <p style="font-size:14px;color:#9C9384;margin:0 0 20px;">Töltsd ki, és felvesszük veled a kapcsolatot.</p>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+              <label style="display:block;">
+                <span style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;">Név *</span>
+                <input type="text" value="{{ name }}" onChange="{{ onName }}" placeholder="Kovács Anna" style="width:100%;padding:11px 14px;border:1.5px solid #E7DDCB;border-radius:12px;background:#FBF8F1;font-size:15px;color:#3B372F;outline:none;" style-focus="border-color:#7C93A6;background:#fff;">
+              </label>
+              <label style="display:block;">
+                <span style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;">E-mail *</span>
+                <input type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="anna@pelda.hu" style="width:100%;padding:11px 14px;border:1.5px solid #E7DDCB;border-radius:12px;background:#FBF8F1;font-size:15px;color:#3B372F;outline:none;" style-focus="border-color:#7C93A6;background:#fff;">
+              </label>
+              <label style="display:block;">
+                <span style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;">Telefonszám</span>
+                <input type="tel" value="{{ phone }}" onChange="{{ onPhone }}" placeholder="+36 30 123 4567" style="width:100%;padding:11px 14px;border:1.5px solid #E7DDCB;border-radius:12px;background:#FBF8F1;font-size:15px;color:#3B372F;outline:none;" style-focus="border-color:#7C93A6;background:#fff;">
+              </label>
+              <label style="display:block;">
+                <span style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;">Tárgy</span>
+                <div style="position:relative;">
+                  <select value="{{ subject }}" onChange="{{ onSubject }}" style="width:100%;padding:11px 38px 11px 14px;border:1.5px solid #E7DDCB;border-radius:12px;background:#FBF8F1;font-size:15px;color:#3B372F;outline:none;appearance:none;cursor:pointer;" style-focus="border-color:#7C93A6;background:#fff;">
+                    <option value="">Válassz…</option>
+                    <option value="visszahivas">Visszahívás kérése</option>
+                    <option value="ajanlat">Ajánlatkérés</option>
+                    <option value="egyeb">Egyéb</option>
+                  </select>
+                  <svg style="position:absolute;right:13px;top:50%;transform:translateY(-50%);pointer-events:none;color:#9C9384;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </label>
+            </div>
+
+            <label style="display:block;margin-top:14px;">
+              <span style="display:block;font-weight:700;font-size:13px;margin-bottom:6px;">Üzenet</span>
+              <textarea value="{{ message }}" onChange="{{ onMessage }}" rows="4" placeholder="Írd ide, miben segíthetünk…" style="width:100%;padding:11px 14px;border:1.5px solid #E7DDCB;border-radius:12px;background:#FBF8F1;font-size:15px;color:#3B372F;outline:none;resize:vertical;font-family:inherit;" style-focus="border-color:#7C93A6;background:#fff;"></textarea>
+            </label>
+
+            <div onClick="{{ toggleConsent }}" style="display:flex;align-items:flex-start;gap:11px;margin-top:16px;cursor:pointer;">
+              <span style="{{ consentBox }}">
+                <sc-if value="{{ consent }}" hint-placeholder-val="{{ false }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></sc-if>
+              </span>
+              <span style="font-size:13.5px;color:#6E665A;line-height:1.45;">Elolvastam és elfogadom az <a href="#" style="color:#5C7285;font-weight:700;">adatkezelési tájékoztatót</a>. *</span>
+            </div>
+
+            <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:14px;display:flex;align-items:center;gap:9px;padding:11px 14px;border-radius:12px;background:#F4E6DD;border:1px solid #E4C8B7;color:#B26A4C;font-size:14px;font-weight:700;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                {{ error }}
+              </div>
+            </sc-if>
+
+            <button onClick="{{ onSubmit }}" style="margin-top:20px;width:100%;padding:14px;border:none;border-radius:999px;background:#7C93A6;color:#fff;font-family:inherit;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 8px 20px rgba(92,114,133,.24);" style-hover="background:#5C7285;">Üzenet küldése</button>
+            <p style="text-align:center;font-size:12.5px;color:#9C9384;margin:14px 0 0;">A regisztráció ingyenes, és bármikor lemondható.</p>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ LÁBLÉC (közös komponens) ============ -->
+  <dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { name:'', email:'', phone:'', subject:'', message:'', consent:false, submitted:false, error:'', heroMsg:0 };
+
+  setHeroMsg = (i) => () => this.setState({ heroMsg: i });
+
+  set = (k) => (e) => {
+    const v = (e && e.target) ? e.target.value : e;
+    this.setState({ [k]: v, error:'' });
+  };
+  toggleConsent = () => this.setState((s) => ({ consent: !s.consent, error:'' }));
+
+  submit = () => {
+    const s = this.state;
+    if (!s.name.trim() || !s.email.trim()) { this.setState({ error:'Kérlek add meg a neved és az e-mail címed.' }); return; }
+    if (!/.+@.+\..+/.test(s.email)) { this.setState({ error:'Adj meg egy érvényes e-mail címet.' }); return; }
+    if (!s.consent) { this.setState({ error:'Az elküldéshez fogadd el az adatkezelési tájékoztatót.' }); return; }
+    this.setState({ submitted:true, error:'' });
+  };
+  reset = () => this.setState({ name:'', email:'', phone:'', subject:'', message:'', consent:false, submitted:false, error:'' });
+
+  renderVals() {
+    const s = this.state;
+
+    const HERO_MSGS = [
+      {
+        date: '2026. július 3., péntek',
+        greeting: 'Szia Gábor,',
+        intro: 'összeszedtem, mi vár rád ma — és pár hír, ami a témáid alapján érdekelhet.',
+        todos: [
+          'Prezentáció véglegesítése a 14:00-s bemutatóra',
+          'Válasz a beszállítói ajánlatra',
+          'Heti riport elküldése a csapatnak',
+        ],
+        events: [
+          { time: '09:30', title: 'Standup — termékcsapat' },
+          { time: '14:00', title: 'Ügyfélbemutató (online)' },
+          { time: '17:00', title: '1:1 Katával' },
+        ],
+        news: [
+          { cat: 'Tech', title: 'Új EU-s MI-szabályozás lép életbe a nyáron', source: 'index.hu' },
+          { cat: 'Üzlet', title: 'Rekord kockázati tőke áramlott a hazai startupokba', source: 'forbes.hu' },
+          { cat: 'Tech', title: 'Bemutattak egy új, nyílt forrású nyelvi modellt', source: 'telex.hu' },
+        ],
+      },
+      {
+        date: '2026. július 3., péntek',
+        greeting: 'Szia Gábor,',
+        intro: 'íme a mai napod röviden — és a hozzád illő sport- és kulturális hírek.',
+        todos: [
+          'Edzőterem foglalása 18:00-ra',
+          'Színházjegy megvétele hétvégére',
+          'Futócipő-rendelés lezárása',
+        ],
+        events: [
+          { time: '12:30', title: 'Ebéd Petivel a belvárosban' },
+          { time: '19:00', title: 'Kosármeccs a tv-ben' },
+          { time: '21:00', title: 'Könyvklub — online' },
+        ],
+        news: [
+          { cat: 'Sport', title: 'Meglepetés eredmény a bajnoki rangadón', source: 'nemzetisport.hu' },
+          { cat: 'Kultúra', title: 'Rekordot döntött a nyári fesztiválszezon', source: 'telex.hu' },
+          { cat: 'Sport', title: 'Magyar érem a vizes világbajnokságon', source: 'm4sport.hu' },
+        ],
+      },
+      {
+        date: '2026. július 3., péntek',
+        greeting: 'Szia Gábor,',
+        intro: 'a mai teendőid, a naptárad és a téged érdeklő pénzügyi hírek egy helyen.',
+        todos: [
+          'Havi megtakarítás átutalása',
+          'Rezsiszámlák befizetése',
+          'Befektetési portfólió átnézése',
+        ],
+        events: [
+          { time: '10:00', title: 'Banki tanácsadás (telefonos)' },
+          { time: '15:30', title: 'Egyeztetés a könyvelővel' },
+          { time: '18:30', title: 'Előadás: pénzügyi tudatosság' },
+        ],
+        news: [
+          { cat: 'Pénzügy', title: 'Csökkenő infláció: mit jelent a megtakarításokra?', source: 'portfolio.hu' },
+          { cat: 'Tudomány', title: 'Hazai áttörés a megújuló energiák terén', source: 'qubit.hu' },
+          { cat: 'Pénzügy', title: 'Új állampapír-konstrukció indul jövő héten', source: 'g7.hu' },
+        ],
+      },
+    ];
+    const active = HERO_MSGS[s.heroMsg] || HERO_MSGS[0];
+    const dotStyle = (i) => s.heroMsg === i
+      ? 'width:24px;height:11px;border-radius:999px;background:#7C93A6;border:none;padding:0;cursor:pointer;transition:all .18s;'
+      : 'width:11px;height:11px;border-radius:50%;background:#DDD0B9;border:none;padding:0;cursor:pointer;transition:all .18s;';
+
+    return {
+      active,
+      dot0: dotStyle(0), dot1: dotStyle(1), dot2: dotStyle(2),
+      setMsg0: this.setHeroMsg(0), setMsg1: this.setHeroMsg(1), setMsg2: this.setHeroMsg(2),
+      msgIndexLabel: (s.heroMsg + 1) + ' / 3',
+      name:s.name, email:s.email, phone:s.phone, subject:s.subject, message:s.message,
+      consent:s.consent, error:s.error, hasError: !!s.error,
+      formHidden: s.submitted, formShown: !s.submitted,
+      onName:this.set('name'), onEmail:this.set('email'), onPhone:this.set('phone'),
+      onSubject:this.set('subject'), onMessage:this.set('message'),
+      toggleConsent:this.toggleConsent, onSubmit:this.submit, reset:this.reset,
+      consentBox: `width:22px;height:22px;border-radius:6px;border:2px solid ${s.consent?'#7C93A6':'#DDD0B9'};background:${s.consent?'#7C93A6':'#FFFFFF'};display:grid;place-items:center;flex:none;color:#fff;transition:all .15s;`,
+    };
+  }
+}
+</script>
+</body>
+</html>
