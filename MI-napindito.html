@@ -25,20 +25,20 @@
 
   <!-- ============ HERO ============ -->
   <section style="border-bottom:1px solid #E7DDCB;">
-    <div style="max-width:1080px;margin:0 auto;padding:22px 24px 60px;">
+    <div style="max-width:1080px;margin:0 auto;padding:22px clamp(16px,4vw,24px) clamp(40px,6vw,60px);">
       <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#9C9384;margin-bottom:28px;">
         <a href="MI-szolgaltatasok.html" style="color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">MI szolgáltatások</a>
         <span>/</span>
         <span style="color:#6E665A;">Napindító asszisztens</span>
       </div>
 
-      <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;">
-        <div>
+      <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,48px);align-items:center;">
+        <div style="flex:1 1 360px;min-width:0;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
             <span style="font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9C9384;">Napindító asszisztens</span>
             <span style="font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#5E8A57;background:#E6F0DF;padding:4px 11px;border-radius:999px;">Elérhető</span>
           </div>
-          <h1 style="font-family:'Quicksand';font-size:44px;line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:0 0 16px;">A napod egy jól átgondolt levéllel indul</h1>
+          <h1 style="font-family:'Quicksand';font-size:clamp(30px,5.2vw,44px);line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:0 0 16px;">A napod egy jól átgondolt levéllel indul</h1>
           <p style="font-size:18px;color:#6E665A;margin:0 0 20px;max-width:520px;">A <strong style="color:#3B372F;">naptárad</strong>, a <strong style="color:#3B372F;">teendőid</strong> és az <strong style="color:#3B372F;">emlékeztetőid</strong> a fő — ezeket rakjuk össze minden reggel egyetlen, tömör napindító levélbe. A téged érdeklő híreket pedig ráadásként hozzátesszük.</p>
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:26px;font-size:14px;color:#6E665A;">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5E8A57" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
@@ -49,7 +49,7 @@
             <a href="index.html#regisztracio" style="padding:13px 24px;border-radius:999px;border:1.5px solid #C9D6E1;background:#fff;color:#5C7285;font-weight:700;font-size:16px;text-decoration:none;" style-hover="background:#E4EAF0;border-color:#7C93A6;">Kezdd el ingyen</a>
           </div>
         </div>
-        <div>
+        <div style="flex:1 1 300px;min-width:0;">
           <image-slot id="na-hero" style="display:block;width:100%;height:320px;" shape="rounded" radius="20" placeholder="képernyőkép: napindító levél"></image-slot>
         </div>
       </div>
@@ -58,7 +58,7 @@
 
   <!-- ============ INTERAKTÍV DEMÓ ============ -->
   <section id="demo" style="scroll-margin-top:84px;background:#F7F1E6;border-bottom:1px solid #E7DDCB;">
-    <div style="max-width:1080px;margin:0 auto;padding:60px 24px 68px;">
+    <div style="max-width:1080px;margin:0 auto;padding:clamp(40px,6vw,60px) clamp(16px,4vw,24px) clamp(44px,6vw,68px);">
 
       <!-- magyarázat -->
       <div style="max-width:680px;margin:0 auto 34px;text-align:center;">
@@ -66,7 +66,7 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M19.1 4.9l-2.8 2.8M7.7 16.3l-2.8 2.8"/></svg>
           Élő demó
         </span>
-        <h2 style="font-family:'Quicksand';font-size:34px;font-weight:700;letter-spacing:-.02em;margin:0 0 14px;">Nézd meg, mit kapnál — fiók-hozzáférés nélkül</h2>
+        <h2 style="font-family:'Quicksand';font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em;margin:0 0 14px;">Nézd meg, mit kapnál — fiók-hozzáférés nélkül</h2>
         <p style="font-size:17px;color:#6E665A;margin:0;">Ha még nem szeretnéd megadni a hozzáférést a naptáradhoz és teendőidhez, bújj bele egy <strong style="color:#3B372F;">demó-profilba</strong>. Böngészd szabadon a naptárát, teendőit és emlékeztetőit — jobbra látod, <strong style="color:#3B372F;">miből áll össze</strong> a bal oldali napindító levél.</p>
       </div>
 
@@ -132,10 +132,10 @@
       </div>
 
       <!-- levél + forrás -->
-      <div style="display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start;">
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;">
 
         <!-- ==== A NAPINDÍTÓ LEVÉL ==== -->
-        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;box-shadow:0 20px 48px rgba(59,55,47,.10);overflow:hidden;">
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;box-shadow:0 20px 48px rgba(59,55,47,.10);overflow:hidden;flex:2 1 380px;min-width:0;">
           <div style="padding:20px 26px;border-bottom:1px solid #EBE1D0;display:flex;align-items:center;gap:11px;">
             <div style="width:34px;height:34px;border-radius:9px;background:#7C93A6;display:flex;align-items:flex-end;justify-content:center;gap:1.5px;padding-bottom:7px;flex:none;">
               <span style="font-family:'Quicksand';font-weight:700;font-size:16px;line-height:1;color:#fff;">M</span>
@@ -227,7 +227,7 @@
         </div>
 
         <!-- ==== MIBŐL ÁLL ÖSSZE (forrás) ==== -->
-        <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:16px;flex:1 1 300px;min-width:0;">
           <div style="font-size:13.5px;color:#6E665A;line-height:1.5;padding:0 2px;">
             <strong style="color:#3B372F;font-family:'Quicksand';">Miből áll össze?</strong><br>
             Ezt látja <strong style="color:#5C7285;">{{ profileName }}</strong> a fiókjában — a levél ebből készül. Nézd át bátran, akár a pipákat is átállíthatod.
@@ -307,13 +307,13 @@
   </section>
 
   <!-- ============ MI KERÜL A LEVÉLBE ============ -->
-  <section id="reszletek" style="scroll-margin-top:84px;max-width:1080px;margin:0 auto;padding:62px 24px 20px;">
+  <section id="reszletek" style="scroll-margin-top:84px;max-width:1080px;margin:0 auto;padding:clamp(44px,6vw,62px) clamp(16px,4vw,24px) 20px;">
     <div style="text-align:center;max-width:640px;margin:0 auto 40px;">
       <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Mi kerül a levélbe</div>
-      <h2 style="font-family:'Quicksand';font-size:34px;font-weight:700;letter-spacing:-.02em;margin:12px 0 10px;">A hasznos dolgok elöl, a hírek ráadásként</h2>
+      <h2 style="font-family:'Quicksand';font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em;margin:12px 0 10px;">A hasznos dolgok elöl, a hírek ráadásként</h2>
       <p style="font-size:16px;color:#6E665A;margin:0;">A napindító asszisztens a munkádat szolgálja: a naptárad, a teendőid és az emlékeztetőid a lényeg. A hírek egy kellemes plusz a végén.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;">
 
       <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:26px;">
         <div style="width:46px;height:46px;border-radius:13px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;margin-bottom:16px;">
@@ -354,12 +354,12 @@
   </section>
 
   <!-- ============ HOGYAN MŰKÖDIK ============ -->
-  <section style="max-width:1080px;margin:0 auto;padding:56px 24px 20px;">
+  <section style="max-width:1080px;margin:0 auto;padding:clamp(40px,6vw,56px) clamp(16px,4vw,24px) 20px;">
     <div style="text-align:center;max-width:600px;margin:0 auto 40px;">
       <div style="font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5C7285;">Hogyan működik</div>
-      <h2 style="font-family:'Quicksand';font-size:34px;font-weight:700;letter-spacing:-.02em;margin:12px 0 0;">Három lépés a nyugodt reggelig</h2>
+      <h2 style="font-family:'Quicksand';font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.02em;margin:12px 0 0;">Három lépés a nyugodt reggelig</h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;">
       <div style="background:#fff;border:1px solid #E7DDCB;border-radius:22px;padding:28px;">
         <div style="font-family:'Quicksand';font-weight:700;font-size:40px;color:#C9D6E1;line-height:1;margin-bottom:14px;">01</div>
         <h3 style="font-family:'Quicksand';font-size:19px;font-weight:700;margin:0 0 7px;">Kösd össze — vagy próbáld demóval</h3>
@@ -379,9 +379,9 @@
   </section>
 
   <!-- ============ CTA ============ -->
-  <section style="max-width:1080px;margin:0 auto;padding:44px 24px 76px;">
-    <div style="background:#F7F1E6;border:1px solid #E7DDCB;border-radius:26px;padding:46px 40px;text-align:center;">
-      <h2 style="font-family:'Quicksand';font-size:30px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;">Indítsd jól a napjaid</h2>
+  <section style="max-width:1080px;margin:0 auto;padding:44px clamp(16px,4vw,24px) clamp(48px,7vw,76px);">
+    <div style="background:#F7F1E6;border:1px solid #E7DDCB;border-radius:26px;padding:clamp(28px,5vw,46px) clamp(20px,4vw,40px);text-align:center;">
+      <h2 style="font-family:'Quicksand';font-size:clamp(24px,3.6vw,30px);font-weight:700;letter-spacing:-.02em;margin:0 0 10px;">Indítsd jól a napjaid</h2>
       <p style="font-size:17px;color:#6E665A;max-width:520px;margin:0 auto 26px;">Naptár, teendők, emlékeztetők — és ráadásként a híreid, minden reggel egy levélben. Ingyen kezdheted.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
         <a href="index.html#regisztracio" style="padding:14px 26px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 8px 20px rgba(92,114,133,.28);" style-hover="background:#5C7285;">Kezdd el ingyen</a>

@@ -25,19 +25,19 @@
 
   <!-- ============ INTRO ============ -->
   <section id="szolgaltatasok" style="scroll-margin-top:84px;">
-    <div style="max-width:1180px;margin:0 auto;padding:66px 24px 20px;text-align:center;">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(44px,6vw,66px) clamp(16px,4vw,24px) 20px;text-align:center;">
       <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#5C7285;background:#E4EAF0;padding:7px 14px;border-radius:999px;">
         <span style="width:7px;height:7px;border-radius:50%;background:#7C93A6;"></span>MI szolgáltatások
       </div>
-      <h1 style="font-family:'Quicksand';font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:20px 0 16px;">Megoldások, amelyeket <span style="color:#5C7285;">Mesterséges Intelligencia</span> hajt</h1>
+      <h1 style="font-family:'Quicksand';font-size:clamp(30px,5.4vw,46px);line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:20px 0 16px;">Megoldások, amelyeket <span style="color:#5C7285;">Mesterséges Intelligencia</span> hajt</h1>
       <p style="font-size:18px;color:#6E665A;max-width:620px;margin:0 auto;">A hírösszefoglalótól a hangalapú botokig — így dolgozik érted a MIzujs. Görgesd végig, vagy ugorj egyből arra, ami érdekel a felső menüből.</p>
     </div>
   </section>
 
   <!-- ============ SOLUTION ROWS ============ -->
-  <section style="max-width:1180px;margin:0 auto;padding:36px 24px 20px;display:flex;flex-direction:column;gap:26px;">
+  <section style="max-width:1180px;margin:0 auto;padding:36px clamp(16px,4vw,24px) 20px;display:flex;flex-direction:column;gap:26px;">
     <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
-      <div id="{{ s.slug }}" style="scroll-margin-top:96px;background:#fff;border:1px solid #E7DDCB;border-radius:26px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+      <div id="{{ s.slug }}" style="scroll-margin-top:96px;background:#fff;border:1px solid #E7DDCB;border-radius:26px;padding:clamp(22px,4vw,34px);display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,40px);align-items:center;">
 
         <!-- text -->
         <div style="{{ s.txtStyle }}">
@@ -68,9 +68,9 @@
   </section>
 
   <!-- ============ CTA ============ -->
-  <section style="max-width:1180px;margin:0 auto;padding:30px 24px 76px;">
-    <div style="background:#F7F1E6;border:1px solid #E7DDCB;border-radius:26px;padding:48px 40px;text-align:center;">
-      <h2 style="font-family:'Quicksand';font-size:32px;font-weight:700;letter-spacing:-.02em;margin:0 0 10px;">Melyik megoldás illik hozzád?</h2>
+  <section style="max-width:1180px;margin:0 auto;padding:30px clamp(16px,4vw,24px) clamp(48px,7vw,76px);">
+    <div style="background:#F7F1E6;border:1px solid #E7DDCB;border-radius:26px;padding:clamp(30px,5vw,48px) clamp(20px,4vw,40px);text-align:center;">
+      <h2 style="font-family:'Quicksand';font-size:clamp(24px,3.8vw,32px);font-weight:700;letter-spacing:-.02em;margin:0 0 10px;">Melyik megoldás illik hozzád?</h2>
       <p style="font-size:17px;color:#6E665A;max-width:520px;margin:0 auto 26px;">Írj nekünk pár sort arról, mire lenne szükséged — segítünk kiválasztani a megfelelő modult.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
         <a href="index.html#regisztracio" style="padding:14px 26px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 8px 20px rgba(92,114,133,.28);" style-hover="background:#5C7285;">Kezdd el ingyen</a>
@@ -173,8 +173,8 @@ class Component extends DCLogic {
         statusLabel: s.st.label,
         statusStyle: statusStyle(s.st),
         detailUrl: s.slug === 'napindito' ? 'MI-napindito.html' : '#',
-        txtStyle: reverse ? 'order:2;' : 'order:0;',
-        imgStyle: reverse ? 'order:0;' : 'order:2;',
+        txtStyle: (reverse ? 'order:2;' : 'order:0;') + 'flex:1 1 320px;min-width:0;',
+        imgStyle: (reverse ? 'order:0;' : 'order:2;') + 'flex:1 1 320px;min-width:0;',
       };
     });
 

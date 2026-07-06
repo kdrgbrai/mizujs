@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 </helmet>
 <header style="position:sticky;top:0;z-index:50;background:rgba(251,248,241,.82);backdrop-filter:blur(12px);border-bottom:1px solid #E7DDCB;font-family:'Nunito',system-ui,sans-serif;">
-  <div style="max-width:1180px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+  <div style="max-width:1180px;margin:0 auto;padding:13px clamp(16px,4vw,24px);display:flex;align-items:center;justify-content:space-between;gap:16px;">
     <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
       <div style="width:34px;height:34px;border-radius:10px;background:#7C93A6;display:flex;align-items:flex-end;justify-content:center;gap:1.5px;padding-bottom:7px;flex:none;">
         <span style="font-family:'Quicksand';font-weight:700;font-size:18px;line-height:1;color:#fff;">M</span>
@@ -22,7 +22,7 @@
         <span style="font-weight:800;font-size:9px;line-height:1;letter-spacing:.11em;text-transform:uppercase;color:#9C9384;">Mesterséges Intelligencia Megoldások</span>
       </span>
     </a>
-    <nav style="display:flex;gap:2px;align-items:center;flex-wrap:nowrap;">
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:2px;align-items:center;flex-wrap:nowrap;">
       <a href="index.html" style="{{ homeStyle }}">Főoldal</a>
 
       <!-- ===== MEGA MENÜ: MI szolgáltatások ===== -->
@@ -81,8 +81,45 @@
       <a href="Velemenyek.html" style="{{ velemenyekStyle }}">Vélemények</a>
       <a href="Rolunk.html" style="{{ rolunkStyle }}">Rólunk</a>
       <button onClick="{{ openModal }}" style="margin-left:8px;padding:9px 18px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;" style-hover="background:#5C7285;">Bejelentkezés / Regisztráció</button>
-    </nav>
+    </nav></sc-if>
+
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMobile }}" aria-label="Menü" style="width:44px;height:44px;border-radius:12px;border:1px solid #E7DDCB;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none;color:#3B372F;" style-hover="background:#F7F1E6;">
+        <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></sc-if>
+        <sc-if value="{{ mobileClosed }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></sc-if>
+      </button>
+    </sc-if>
   </div>
+
+  <sc-if value="{{ mobileDrawer }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid #E7DDCB;background:#FBF8F1;padding:12px 16px 22px;max-height:calc(100vh - 66px);overflow:auto;">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <a href="index.html" onClick="{{ closeMobile }}" style="{{ mHomeStyle }}">Főoldal</a>
+        <button onClick="{{ toggleMobileSub }}" style="{{ mSubTriggerStyle }}">
+          <span>MI szolgáltatások</span>
+          <svg style="{{ mSubCaretStyle }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <sc-if value="{{ mobileSubOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:3px;padding:2px 0 8px 6px;">
+            <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+              <a href="{{ s.href }}" onClick="{{ closeMobile }}" style="{{ s.mRowStyle }}">
+                <span style="{{ s.mIconStyle }}">{{ s.icon }}</span>
+                <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="font-weight:800;font-size:14.5px;color:#3B372F;">{{ s.short }}</span><sc-if value="{{ s.isActive }}" hint-placeholder-val="{{ false }}"><span style="width:6px;height:6px;border-radius:50%;background:#7C93A6;flex:none;"></span></sc-if></span>
+                  <span style="{{ s.statusStyle }}">{{ s.statusLabel }}</span>
+                </span>
+              </a>
+            </sc-for>
+            <a href="MI-szolgaltatasok.html" onClick="{{ closeMobile }}" style="display:inline-flex;align-items:center;gap:6px;margin:6px 0 0 10px;font-weight:800;font-size:13.5px;color:#5C7285;text-decoration:none;">Összes megoldás egy oldalon<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </sc-if>
+        <a href="Hogyan-mukodik.html" onClick="{{ closeMobile }}" style="{{ mHogyanStyle }}">Hogyan működik</a>
+        <a href="Velemenyek.html" onClick="{{ closeMobile }}" style="{{ mVelemenyekStyle }}">Vélemények</a>
+        <a href="Rolunk.html" onClick="{{ closeMobile }}" style="{{ mRolunkStyle }}">Rólunk</a>
+        <button onClick="{{ openModal }}" style="margin-top:8px;width:100%;padding:14px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:inherit;" style-hover="background:#5C7285;">Bejelentkezés / Regisztráció</button>
+      </div>
+    </div>
+  </sc-if>
 </header>
 
 <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
@@ -125,11 +162,19 @@
 </sc-if></x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:64},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;szolgaltatasok&quot;,&quot;hogyan&quot;,&quot;velemenyek&quot;,&quot;rolunk&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;'home'|'szolgaltatasok'|'hogyan'|'velemenyek'|'rolunk'&quot;},&quot;activeService&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;napindito&quot;,&quot;hirek&quot;,&quot;telegram&quot;,&quot;hivougynok&quot;,&quot;hangasszisztens&quot;,&quot;ai-kollegak&quot;,&quot;b2b-telefonia&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 class Component extends DCLogic {
-  state = { menuOpen: false, modalOpen: false };
+  state = { menuOpen: false, modalOpen: false, mobileOpen: false, mobileSubOpen: false, vw: (typeof window !== 'undefined' ? window.innerWidth : 1200) };
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { if (this._onResize) window.removeEventListener('resize', this._onResize); }
   openMenu = () => this.setState({ menuOpen: true });
   closeMenu = () => this.setState({ menuOpen: false });
-  openModal = () => this.setState({ modalOpen: true, menuOpen: false });
+  openModal = () => this.setState({ modalOpen: true, menuOpen: false, mobileOpen: false });
   closeModal = () => this.setState({ modalOpen: false });
+  toggleMobile = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+  closeMobile = () => this.setState({ mobileOpen: false });
+  toggleMobileSub = () => this.setState(s => ({ mobileSubOpen: !s.mobileSubOpen }));
   stopProp = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
 
   renderVals() {
@@ -165,6 +210,7 @@ class Component extends DCLogic {
     const activeService = this.props.activeService || '';
 
     const rowBase = 'display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:14px;text-decoration:none;color:#3B372F;transition:background .12s;';
+    const mRowBase = 'display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;text-decoration:none;color:#3B372F;';
     const services = SERVICES.map((s) => {
       const isActive = s.slug === activeService;
       return {
@@ -173,8 +219,17 @@ class Component extends DCLogic {
         href: DETAIL[s.slug] || ('MI-szolgaltatasok.html#' + s.slug),
         rowStyle: rowBase + (isActive ? 'background:#E4EAF0;' : ''),
         iconStyle: 'width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;margin-top:1px;' + (isActive ? 'background:#7C93A6;color:#fff;' : 'background:#E4EAF0;color:#5C7285;'),
+        mRowStyle: mRowBase + (isActive ? 'background:#E4EAF0;' : ''),
+        mIconStyle: 'width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;' + (isActive ? 'background:#7C93A6;color:#fff;' : 'background:#E4EAF0;color:#5C7285;'),
       };
     });
+
+    const isMobile = this.state.vw < 860;
+    const mobileOpen = this.state.mobileOpen;
+    const mobileSubOpen = this.state.mobileSubOpen;
+    const mLinkBase = 'display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;font-family:inherit;background:none;border:none;width:100%;text-align:left;cursor:pointer;';
+    const mInactive = mLinkBase + 'color:#3B372F;';
+    const mActive = mLinkBase + 'color:#5C7285;background:#E4EAF0;';
 
     return {
       services,
@@ -184,6 +239,21 @@ class Component extends DCLogic {
       openModal: this.openModal,
       closeModal: this.closeModal,
       stopProp: this.stopProp,
+      isMobile,
+      isDesktop: !isMobile,
+      mobileOpen,
+      mobileClosed: !mobileOpen,
+      mobileDrawer: isMobile && mobileOpen,
+      mobileSubOpen,
+      toggleMobile: this.toggleMobile,
+      closeMobile: this.closeMobile,
+      toggleMobileSub: this.toggleMobileSub,
+      mHomeStyle: active === 'home' ? mActive : mInactive,
+      mHogyanStyle: active === 'hogyan' ? mActive : mInactive,
+      mVelemenyekStyle: active === 'velemenyek' ? mActive : mInactive,
+      mRolunkStyle: active === 'rolunk' ? mActive : mInactive,
+      mSubTriggerStyle: (active === 'szolgaltatasok' || mobileSubOpen) ? mActive : mInactive,
+      mSubCaretStyle: `transition:transform .18s;transform:rotate(${mobileSubOpen ? '180deg' : '0deg'});flex:none;`,
       linkStyle: inactive,
       homeStyle: active === 'home' ? activeStyle : inactive,
       hogyanStyle: active === 'hogyan' ? activeStyle : inactive,
