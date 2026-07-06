@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#FBF8F1;color:#3B372F;font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+  input::placeholder{color:#9C9384;}
+  .clamp3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+</style>
+</helmet>
+
+<div style="min-width:0;">
+
+  <dc-import name="SiteHeader" active="szolgaltatasok" active-service="napindito" hint-size="100%,64px"></dc-import>
+
+  <!-- ============ FEJLÉC ============ -->
+  <section style="border-bottom:1px solid #E7DDCB;background:#F7F1E6;">
+    <div style="max-width:1180px;margin:0 auto;padding:22px clamp(16px,4vw,24px) 34px;">
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#9C9384;margin-bottom:22px;">
+        <a href="MI-napindito.html" style="color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">Napindító asszisztens</a>
+        <span>/</span>
+        <span style="color:#6E665A;">Hírböngésző</span>
+      </div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#5E8A57;background:#E6F0DF;padding:4px 11px;border-radius:999px;">
+              <span style="width:7px;height:7px;border-radius:50%;background:#5E8A57;display:inline-block;"></span>Frissítve · {{ today }}
+            </span>
+          </div>
+          <h1 style="font-family:'Quicksand';font-size:clamp(28px,5vw,40px);line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:0 0 10px;">Hírböngésző</h1>
+          <p style="font-size:17px;color:#6E665A;margin:0;max-width:560px;">Böngéssz az összegyűjtött hírek között — minden rovat, minden nap. Szűrj rovat és időszak szerint, vagy keress rá egy témára.</p>
+        </div>
+        <div style="display:flex;gap:24px;flex:none;">
+          <div style="text-align:right;">
+            <div style="font-family:'Quicksand';font-weight:700;font-size:30px;color:#5C7285;line-height:1;">{{ totalCount }}</div>
+            <div style="font-size:12.5px;font-weight:700;color:#9C9384;margin-top:4px;">összegyűjtött hír</div>
+          </div>
+          <div style="width:1px;background:#E7DDCB;"></div>
+          <div style="text-align:right;">
+            <div style="font-family:'Quicksand';font-weight:700;font-size:30px;color:#5C7285;line-height:1;">{{ rovatCount }}</div>
+            <div style="font-size:12.5px;font-weight:700;color:#9C9384;margin-top:4px;">aktív rovat</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TARTALOM ============ -->
+  <section style="max-width:1180px;margin:0 auto;padding:26px clamp(16px,4vw,24px) 72px;">
+
+    <!-- kereső + rendezés sáv -->
+    <div style="display:flex;gap:14px;align-items:center;margin-bottom:24px;flex-wrap:wrap;">
+      <div style="position:relative;flex:1;min-width:280px;">
+        <span style="position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#9C9384;display:grid;place-items:center;pointer-events:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+        <input value="{{ q }}" onInput="{{ onSearch }}" placeholder="Keresés a hírek között…" style="width:100%;padding:14px 44px 14px 46px;border-radius:999px;border:1.5px solid #E7DDCB;background:#fff;font-family:inherit;font-size:15.5px;font-weight:600;color:#3B372F;outline:none;transition:border-color .15s;" style-focus="border-color:#7C93A6;">
+        <sc-if value="{{ hasQuery }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ clearSearch }}" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;border:none;background:#EBE1D0;color:#6E665A;cursor:pointer;display:grid;place-items:center;" style-hover="background:#DDD0B9;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </sc-if>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;flex:none;">
+        <span style="font-size:13.5px;font-weight:700;color:#9C9384;">Rendezés</span>
+        <div style="display:flex;background:#fff;border:1.5px solid #E7DDCB;border-radius:999px;padding:3px;gap:2px;">
+          <button onClick="{{ setSortNew }}" style="{{ sortNewStyle }}">Legújabb</button>
+          <button onClick="{{ setSortOld }}" style="{{ sortOldStyle }}">Legrégebbi</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="{{ gridStyle }}">
+
+      <!-- ==== BAL RAIL: szűrők ==== -->
+      <aside style="{{ asideStyle }}">
+
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleFilters }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid #E7DDCB;background:#fff;font-family:inherit;font-weight:800;font-size:15px;color:#3B372F;cursor:pointer;">
+            <span style="display:flex;align-items:center;gap:9px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>
+              Szűrők
+              <sc-if value="{{ hasActiveFilters }}" hint-placeholder-val="{{ false }}"><span style="min-width:22px;text-align:center;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;background:#7C93A6;color:#fff;">{{ activeFilterCount }}</span></sc-if>
+            </span>
+            <svg style="{{ filtersCaretStyle }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+        </sc-if>
+
+        <sc-if value="{{ showFilters }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:22px;">
+
+        <!-- Rovat -->
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:20px;padding:16px;">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9C9384;padding:4px 8px 12px;">Rovat</div>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <sc-for list="{{ rovatRows }}" as="r" hint-placeholder-count="8">
+              <button onClick="{{ r.select }}" style="{{ r.rowStyle }}">
+                <span style="width:9px;height:9px;border-radius:50%;flex:none;background:{{ r.dot }};"></span>
+                <span style="flex:1;text-align:left;font-weight:700;font-size:14.5px;">{{ r.label }}</span>
+                <span style="{{ r.countStyle }}">{{ r.count }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- Időszak -->
+        <div style="background:#fff;border:1px solid #E7DDCB;border-radius:20px;padding:16px;">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#9C9384;padding:4px 8px 12px;">Időszak</div>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <sc-for list="{{ periodRows }}" as="p" hint-placeholder-count="4">
+              <button onClick="{{ p.select }}" style="{{ p.rowStyle }}">
+                <span style="flex:1;text-align:left;font-weight:700;font-size:14.5px;">{{ p.label }}</span>
+                <sc-if value="{{ p.active }}" hint-placeholder-val="{{ false }}">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5C7285" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                </sc-if>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ anyFilter }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ resetFilters }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;border:1.5px solid #E7DDCB;background:#fff;color:#6E665A;font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer;" style-hover="background:#F7F1E6;border-color:#DDD0B9;color:#3B372F;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Szűrők törlése
+          </button>
+        </sc-if>
+        </div>
+        </sc-if>
+      </aside>
+
+      <!-- ==== FŐ: hírlista ==== -->
+      <div style="min-width:0;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px;flex-wrap:wrap;">
+          <div style="font-size:15px;color:#6E665A;">
+            <strong style="font-family:'Quicksand';font-weight:700;font-size:19px;color:#3B372F;">{{ resultCount }}</strong> találat <span style="color:#9C9384;">{{ filterSummary }}</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px;">
+            <sc-for list="{{ results }}" as="n" hint-placeholder-count="6">
+              <article style="display:flex;flex-direction:column;background:#fff;border:1px solid #E7DDCB;border-radius:20px;padding:22px;transition:box-shadow .16s,transform .16s,border-color .16s;" style-hover="box-shadow:0 16px 34px rgba(59,55,47,.10);transform:translateY(-2px);border-color:#DDD0B9;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;">
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#5C7285;background:#F0F3F7;padding:4px 10px 4px 8px;border-radius:999px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:{{ n.dot }};display:inline-block;"></span>{{ n.rovatLabel }}
+                  </span>
+                  <span style="font-size:12.5px;font-weight:700;color:#9C9384;white-space:nowrap;">{{ n.dateLabel }}</span>
+                </div>
+                <h3 style="font-family:'Quicksand';font-size:19px;font-weight:700;line-height:1.28;letter-spacing:-.01em;margin:0 0 9px;">{{ n.title }}</h3>
+                <p class="clamp3" style="font-size:14.5px;color:#6E665A;margin:0 0 16px;line-height:1.55;">{{ n.summary }}</p>
+                <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid #F0EADD;">
+                  <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:#9C9384;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"/></svg>
+                    {{ n.source }}
+                  </span>
+                  <a href="{{ n.url }}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:13px;color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">
+                    Eredeti cikk
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+                  </a>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:64px 24px;background:#fff;border:1px dashed #DDD0B9;border-radius:22px;color:#9C9384;">
+            <div style="width:60px;height:60px;border-radius:18px;background:#F7F1E6;display:grid;place-items:center;color:#9C9384;margin:0 auto 16px;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+            <p style="font-size:16px;font-weight:700;color:#6E665A;margin:0 0 6px;">Nincs a szűrőknek megfelelő hír</p>
+            <p style="font-size:14.5px;margin:0 0 20px;">Próbálj tágabb időszakot, másik rovatot, vagy töröld a keresést.</p>
+            <button onClick="{{ resetFilters }}" style="display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:999px;border:none;background:#7C93A6;color:#fff;font-family:inherit;font-weight:800;font-size:14px;cursor:pointer;" style-hover="background:#5C7285;">Szűrők törlése</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = { rovat: 'all', period: 'all', q: '', sort: 'new', vw: (typeof window !== 'undefined' ? window.innerWidth : 1200), filtersOpen: false };
+
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { if (this._onResize) window.removeEventListener('resize', this._onResize); }
+  toggleFilters = () => this.setState(s => ({ filtersOpen: !s.filtersOpen }));
+
+  setRovat = (slug) => () => this.setState({ rovat: slug });
+  setPeriod = (key) => () => this.setState({ period: key });
+  setSortNew = () => this.setState({ sort: 'new' });
+  setSortOld = () => this.setState({ sort: 'old' });
+  onSearch = (e) => this.setState({ q: e.target.value });
+  clearSearch = () => this.setState({ q: '' });
+  resetFilters = () => this.setState({ rovat: 'all', period: 'all', q: '' });
+
+  renderVals() {
+    const st = this.state;
+
+    const ROVATOK = [
+      { slug: 'belfold',  label: 'Belföld',   dot: '#6C8B99' },
+      { slug: 'kulfold',  label: 'Külföld',   dot: '#5C7285' },
+      { slug: 'gazdasag', label: 'Gazdaság',  dot: '#5E8A57' },
+      { slug: 'politika', label: 'Politika',  dot: '#B26A4C' },
+      { slug: 'tech',     label: 'Tech & MI', dot: '#7C93A6' },
+      { slug: 'tudomany', label: 'Tudomány',  dot: '#6C8B99' },
+      { slug: 'startup',  label: 'Startup',   dot: '#BF9838' },
+      { slug: 'sport',    label: 'Sport',     dot: '#5E8A57' },
+      { slug: 'kultura',  label: 'Kultúra',   dot: '#B26A4C' },
+      { slug: 'egeszseg', label: 'Egészség',  dot: '#5E8A57' },
+      { slug: 'utazas',   label: 'Utazás',    dot: '#BF9838' },
+    ];
+    const RMAP = {};
+    ROVATOK.forEach((r) => { RMAP[r.slug] = r; });
+
+    // dayOffset: 0 = ma, 1 = tegnap, ...
+    const NEWS = [
+      { rovat: 'tech',     off: 0, time: '08:12', source: 'telex.hu',     url: 'https://telex.hu',        title: 'Új, nyílt forrású magyar nyelvi modellt mutattak be', summary: 'Egy hazai kutatócsapat magyar nyelvre optimalizált, szabadon felhasználható modellt tett közzé. Az ígéret szerint helyben, felhő nélkül is futtatható, ami adatvédelmi szempontból is előny.' },
+      { rovat: 'gazdasag', off: 0, time: '07:45', source: 'portfolio.hu', url: 'https://www.portfolio.hu', title: 'Csökkenő infláció: mit jelent ez a megtakarításokra?', summary: 'A lassuló pénzromlás mellett a fix kamatozású megtakarítások reálhozama javulhat. Az elemzők szerint érdemes átnézni a lekötéseket, mielőtt a kamatszint tovább mozdul.' },
+      { rovat: 'belfold',  off: 0, time: '09:20', source: 'index.hu',     url: 'https://index.hu',        title: 'Új szakaszába lép a fővárosi közlekedésfejlesztés', summary: 'Több belvárosi csomópontot alakítanak át a következő hónapokban. A munkálatok idejére terelőútvonalakat jelöltek ki, a menetrend a hétvégén frissül.' },
+      { rovat: 'sport',    off: 0, time: '06:58', source: 'm4sport.hu',   url: 'https://m4sport.hu',      title: 'Magyar érem a vizes világbajnokságon', summary: 'A magyar küldött újabb dobogós helyet szerzett, ezúttal egy szoros döntőben. A versenyző szerint a felkészülés utolsó hetei hozták meg a formaidőzítést.' },
+      { rovat: 'kultura',  off: 1, time: '18:30', source: 'telex.hu',     url: 'https://telex.hu',        title: 'Rekordot döntött a nyári fesztiválszezon', summary: 'A látogatószám az elmúlt évek csúcsát hozta, több helyszín teltházzal zárt. A szervezők jövőre bővített programmal és új helyszínekkel készülnek.' },
+      { rovat: 'politika', off: 1, time: '14:05', source: 'hvg.hu',       url: 'https://hvg.hu',          title: 'Egyeztetés kezdődött az új uniós keretszabályról', summary: 'A tárgyalások a digitális szolgáltatások szabályozásáról szólnak. A várható hatásokról szakértők vegyesen nyilatkoztak, a végszavazás ősszel lehet.' },
+      { rovat: 'startup',  off: 1, time: '11:40', source: 'forbes.hu',    url: 'https://forbes.hu',       title: 'Rekord tőke áramlott a hazai startupokba', summary: 'Az idei első félév a befektetések tekintetében kiemelkedő volt. A legtöbb tőkét a mesterséges intelligenciára és a fintech területre allokálták.' },
+      { rovat: 'tudomany', off: 1, time: '10:12', source: 'qubit.hu',     url: 'https://qubit.hu',        title: 'Áttörés a hazai megújuló energia kutatásában', summary: 'Egy egyetemi projekt hatékonyabb energiatárolási eljárást dolgozott ki. A módszer laborkörülmények között ígéretes, a piaci bevezetés még évekre lehet.' },
+      { rovat: 'kulfold',  off: 2, time: '20:10', source: 'index.hu',     url: 'https://index.hu',        title: 'Csúcstalálkozó zárult közös nyilatkozattal', summary: 'A résztvevő országok több ponton is megegyeztek, bár néhány kérdés nyitva maradt. A közös nyilatkozat a gazdasági együttműködés bővítését helyezi kilátásba.' },
+      { rovat: 'tech',     off: 2, time: '13:22', source: 'hwsw.hu',      url: 'https://www.hwsw.hu',     title: 'Otthoni eszközökön is futó MI-asszisztensek jönnek', summary: 'A gyártók egyre több feladatot végeznek a felhő helyett magán az eszközön. Ez gyorsabb választ és jobb adatvédelmet ígér a felhasználóknak.' },
+      { rovat: 'egeszseg', off: 2, time: '09:00', source: 'hazipatika.com', url: 'https://www.hazipatika.com', title: 'Új ajánlás a nyári hőségre való felkészülésről', summary: 'A szakemberek a folyadékpótlásra és az árnyék keresésére hívják fel a figyelmet. A legmelegebb órákat érdemes beltérben tölteni, különösen az idősebbeknek.' },
+      { rovat: 'gazdasag', off: 3, time: '16:44', source: 'portfolio.hu', url: 'https://www.portfolio.hu', title: 'Élénkült a hazai ingatlanpiac a második negyedévben', summary: 'A tranzakciók száma érezhetően nőtt az előző időszakhoz képest. Az elemzők óvatos optimizmusról beszélnek, a kamatkörnyezet alakulása lesz a döntő.' },
+      { rovat: 'belfold',  off: 3, time: '12:15', source: 'telex.hu',     url: 'https://telex.hu',        title: 'Megújul több vidéki vasútvonal a következő években', summary: 'A fejlesztés a menetidő rövidítését és a kényelmesebb utazást célozza. Az első szakaszok jövő tavasszal készülhetnek el a tervek szerint.' },
+      { rovat: 'utazas',   off: 4, time: '10:30', source: 'travelo.hu',   url: 'https://www.travelo.hu',  title: 'Egyre népszerűbbek a belföldi lassú utazások', summary: 'A gyorsvonatok helyett sokan választanak kerékpáros vagy gyalogos túrát. A trend a kisebb, kevésbé zsúfolt települések vendégforgalmát is felpörgeti.' },
+      { rovat: 'tudomany', off: 4, time: '08:50', source: 'qubit.hu',     url: 'https://qubit.hu',        title: 'Magyar részvétellel indult új űrkutatási program', summary: 'A projekt műholdas megfigyeléssel segítené a mezőgazdaságot. A hazai csapat az adatelemzésért és a szoftveres háttérért felel.' },
+      { rovat: 'sport',    off: 5, time: '21:05', source: 'nemzetisport.hu', url: 'https://www.nemzetisport.hu', title: 'Fordulatos meccsen győzött a bajnoki címvédő', summary: 'A találkozó az utolsó percekben dőlt el egy vitatott helyzet után. Az edző szerint a csapat mentálisan erősödött a szoros mérkőzésen.' },
+      { rovat: 'kultura',  off: 5, time: '15:18', source: 'telex.hu',     url: 'https://telex.hu',        title: 'Felújítás után nyílik újra a patinás mozi', summary: 'Az épület megőrizte régi hangulatát, de modern technikát kapott. A nyitóhéten klasszikus filmek vetítésével várják a közönséget.' },
+      { rovat: 'politika', off: 6, time: '11:11', source: 'hvg.hu',       url: 'https://hvg.hu',          title: 'Vitát váltott ki az új önkormányzati tervezet', summary: 'A javaslat a helyi döntéshozatal átalakításáról szól. A szakmai szervezetek több ponton is módosítást kérnek a végleges szöveg előtt.' },
+      { rovat: 'tech',     off: 7, time: '09:33', source: 'hwsw.hu',      url: 'https://www.hwsw.hu',     title: 'Bővül a hazai adatközpont-kapacitás', summary: 'Az új beruházás a növekvő felhő- és MI-igényeket szolgálná ki. A fenntarthatóság érdekében a hőhasznosításra is nagy hangsúlyt fektetnek.' },
+      { rovat: 'kulfold',  off: 8, time: '19:47', source: 'index.hu',     url: 'https://index.hu',        title: 'Enyhülést hozhat a régiós energiaegyezség', summary: 'A megállapodás a téli ellátásbiztonságot erősítené. A részleteket a következő hetekben dolgozzák ki a szakértői bizottságok.' },
+      { rovat: 'gazdasag', off: 9, time: '13:00', source: 'portfolio.hu', url: 'https://www.portfolio.hu', title: 'Nőtt a hazai ipari termelés éves összevetésben', summary: 'A növekedést főként a járműipar és az elektronikai szektor húzta. A szakértők a következő negyedévekben lassabb, de stabil bővülést várnak.' },
+      { rovat: 'egeszseg', off: 10, time: '08:20', source: 'hazipatika.com', url: 'https://www.hazipatika.com', title: 'Több helyen bővül a háziorvosi digitális ügyintézés', summary: 'Az online időpontfoglalás és e-recept egyre több rendelőben elérhető. A cél a várakozás csökkentése és a papírmentes ügyintézés terjesztése.' },
+      { rovat: 'startup',  off: 11, time: '10:55', source: 'forbes.hu',   url: 'https://forbes.hu',       title: 'Nemzetközi piacra lép egy hazai zöldtech cég', summary: 'A vállalat energiahatékonysági megoldásait több országban is bevezetik. A terjeszkedést friss kockázati tőke és stratégiai partnerség segíti.' },
+    ];
+
+    const q = st.q.trim().toLowerCase();
+    const matchesQuery = (n) => !q || (n.title + ' ' + n.summary + ' ' + n.source).toLowerCase().indexOf(q) !== -1;
+
+    const PERIODS = [
+      { key: 'all', label: 'Összes', max: Infinity },
+      { key: 'today', label: 'Ma', max: 0 },
+      { key: 'week', label: 'Utóbbi 7 nap', max: 6 },
+      { key: 'month', label: 'Utóbbi 30 nap', max: 29 },
+    ];
+    const activePeriod = PERIODS.find((p) => p.key === st.period) || PERIODS[0];
+    const inPeriod = (n) => n.off <= activePeriod.max;
+
+    // alap: időszak + keresés (rovatszűrő nélkül) — ebből számoljuk a rovat-darabszámokat
+    const base = NEWS.filter((n) => inPeriod(n) && matchesQuery(n));
+
+    const rovatCounts = {};
+    base.forEach((n) => { rovatCounts[n.rovat] = (rovatCounts[n.rovat] || 0) + 1; });
+
+    // dátumformázás
+    const now = new Date(2026, 6, 5);
+    const days = ['vasárnap','hétfő','kedd','szerda','csütörtök','péntek','szombat'];
+    const pad = (x) => (x < 10 ? '0' + x : '' + x);
+    const dateFor = (off) => {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - off);
+      return d;
+    };
+    const dateLabel = (n) => {
+      const d = dateFor(n.off);
+      const dstr = d.getFullYear() + '. ' + pad(d.getMonth() + 1) + '. ' + pad(d.getDate()) + '.';
+      if (n.off === 0) return 'Ma · ' + n.time;
+      if (n.off === 1) return 'Tegnap · ' + n.time;
+      return dstr;
+    };
+    const today = now.getFullYear() + '. ' + pad(now.getMonth() + 1) + '. ' + pad(now.getDate()) + '., ' + days[now.getDay()];
+
+    // eredmény: rovatszűrő + rendezés
+    let results = base.filter((n) => st.rovat === 'all' || n.rovat === st.rovat);
+    results.sort((a, b) => (st.sort === 'new' ? a.off - b.off : b.off - a.off));
+    const cards = results.map((n, i) => ({
+      key: n.rovat + '-' + n.off + '-' + i,
+      rovatLabel: RMAP[n.rovat].label,
+      dot: RMAP[n.rovat].dot,
+      dateLabel: dateLabel(n),
+      title: n.title, summary: n.summary, source: n.source, url: n.url,
+    }));
+
+    // rovat rail
+    const rowBase = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:12px;border:none;background:transparent;font-family:inherit;color:#3B372F;cursor:pointer;transition:background .12s;';
+    const rowActive = 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:12px;border:none;background:#E4EAF0;font-family:inherit;color:#5C7285;cursor:pointer;transition:background .12s;';
+    const countBase = 'flex:none;min-width:24px;text-align:center;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;background:#F5EFE3;color:#9C9384;';
+    const countActive = 'flex:none;min-width:24px;text-align:center;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;background:#7C93A6;color:#fff;';
+
+    const rovatRows = [{ slug: 'all', label: 'Összes rovat', dot: '#C9D6E1', count: base.length }]
+      .concat(ROVATOK.map((r) => ({ slug: r.slug, label: r.label, dot: r.dot, count: rovatCounts[r.slug] || 0 })))
+      .map((r) => {
+        const on = st.rovat === r.slug;
+        return {
+          label: r.label, dot: r.dot, count: r.count,
+          select: this.setRovat(r.slug),
+          rowStyle: on ? rowActive : rowBase,
+          countStyle: on ? countActive : countBase,
+        };
+      });
+
+    const periodRows = PERIODS.map((p) => {
+      const on = st.period === p.key;
+      return {
+        label: p.label, active: on,
+        select: this.setPeriod(p.key),
+        rowStyle: on
+          ? 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:12px;border:none;background:#E4EAF0;font-family:inherit;color:#5C7285;cursor:pointer;transition:background .12s;'
+          : 'display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:12px;border:none;background:transparent;font-family:inherit;color:#3B372F;font-weight:400;cursor:pointer;transition:background .12s;',
+      };
+    });
+
+    // szűrő-összefoglaló szöveg
+    const bits = [];
+    if (st.rovat !== 'all') bits.push('„' + RMAP[st.rovat].label + '” rovatban');
+    if (activePeriod.key !== 'all') bits.push(activePeriod.label.toLowerCase());
+    if (q) bits.push('„' + st.q.trim() + '” keresésre');
+    const filterSummary = bits.length ? '· ' + bits.join(' · ') : '';
+
+    const segOn = 'padding:8px 15px;border-radius:999px;border:none;background:#7C93A6;color:#fff;font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer;transition:all .14s;';
+    const segOff = 'padding:8px 15px;border-radius:999px;border:none;background:transparent;color:#6E665A;font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer;transition:all .14s;';
+
+    const isMobile = st.vw < 860;
+    const activeFilterCount = (st.rovat !== 'all' ? 1 : 0) + (st.period !== 'all' ? 1 : 0) + (st.q ? 1 : 0);
+
+    return {
+      today,
+      totalCount: NEWS.length,
+      rovatCount: ROVATOK.length,
+      q: st.q,
+      hasQuery: !!st.q,
+      onSearch: this.onSearch,
+      clearSearch: this.clearSearch,
+      setSortNew: this.setSortNew,
+      setSortOld: this.setSortOld,
+      sortNewStyle: st.sort === 'new' ? segOn : segOff,
+      sortOldStyle: st.sort === 'old' ? segOn : segOff,
+      rovatRows,
+      periodRows,
+      resetFilters: this.resetFilters,
+      anyFilter: st.rovat !== 'all' || st.period !== 'all' || !!st.q,
+      resultCount: cards.length,
+      filterSummary,
+      results: cards,
+      hasResults: cards.length > 0,
+      isEmpty: cards.length === 0,
+      isMobile,
+      toggleFilters: this.toggleFilters,
+      showFilters: !isMobile || this.state.filtersOpen,
+      hasActiveFilters: activeFilterCount > 0,
+      activeFilterCount,
+      filtersCaretStyle: `transition:transform .18s;transform:rotate(${this.state.filtersOpen ? '180deg' : '0deg'});flex:none;`,
+      gridStyle: isMobile
+        ? 'display:grid;grid-template-columns:1fr;gap:18px;align-items:start;'
+        : 'display:grid;grid-template-columns:248px 1fr;gap:28px;align-items:start;',
+      asideStyle: isMobile
+        ? 'display:flex;flex-direction:column;gap:12px;'
+        : 'position:sticky;top:84px;display:flex;flex-direction:column;gap:14px;',
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</helmet>
+<header style="position:sticky;top:0;z-index:50;background:rgba(251,248,241,.82);backdrop-filter:blur(12px);border-bottom:1px solid #E7DDCB;font-family:'Nunito',system-ui,sans-serif;">
+  <div style="max-width:1180px;margin:0 auto;padding:13px clamp(16px,4vw,24px);display:flex;align-items:center;justify-content:space-between;gap:16px;">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <div style="width:34px;height:34px;border-radius:10px;background:#7C93A6;display:flex;align-items:flex-end;justify-content:center;gap:1.5px;padding-bottom:7px;flex:none;">
+        <span style="font-family:'Quicksand';font-weight:700;font-size:18px;line-height:1;color:#fff;">M</span>
+        <span style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="width:5px;height:5px;border-radius:50%;background:#C9D6E1;"></span><span style="width:4px;height:10px;border-radius:2px;background:#C9D6E1;"></span></span>
+      </div>
+      <span style="display:flex;flex-direction:column;gap:3px;">
+        <span style="font-family:'Quicksand';font-weight:700;font-size:20px;line-height:1;letter-spacing:-.01em;color:#3B372F;"><span style="color:#5C7285;">MI</span>zujs<span style="color:#9C9384;">.hu</span></span>
+        <span style="font-weight:800;font-size:9px;line-height:1;letter-spacing:.11em;text-transform:uppercase;color:#9C9384;">Mesterséges Intelligencia Megoldások</span>
+      </span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:2px;align-items:center;flex-wrap:nowrap;">
+      <a href="index.html" style="{{ homeStyle }}">Főoldal</a>
+
+      <!-- ===== MEGA MENÜ: MI szolgáltatások ===== -->
+      <div onMouseEnter="{{ openMenu }}" onMouseLeave="{{ closeMenu }}" style="position:static;">
+        <a href="MI-szolgaltatasok.html" onClick="{{ closeMenu }}" style="{{ triggerStyle }}" style-after="content:'';position:absolute;left:0;right:0;top:100%;height:18px;">
+          MI szolgáltatások
+          <svg style="{{ caretStyle }}" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </a>
+        <div style="{{ panelStyle }}">
+          <div style="max-width:1180px;margin:0 auto;padding:26px 24px 24px;display:grid;grid-template-columns:1fr 292px;gap:30px;">
+
+            <!-- szolgáltatások rács -->
+            <div style="min-width:0;">
+              <div style="font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#9C9384;margin:0 0 14px 4px;">MI szolgáltatások</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+                <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+                  <a href="{{ s.href }}" onClick="{{ closeMenu }}" style="{{ s.rowStyle }}" style-hover="background:#F0F3F7;">
+                    <span style="{{ s.iconStyle }}">{{ s.icon }}</span>
+                    <span style="display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;">
+                      <span style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-weight:800;font-size:14px;line-height:1.2;color:#3B372F;">{{ s.short }}</span>
+                        <sc-if value="{{ s.isActive }}" hint-placeholder-val="{{ false }}"><span style="width:7px;height:7px;border-radius:50%;background:#7C93A6;flex:none;"></span></sc-if>
+                      </span>
+                      <span style="font-size:12px;color:#6E665A;line-height:1.45;">{{ s.desc }}</span>
+                      <span style="{{ s.statusStyle }}">{{ s.statusLabel }}</span>
+                    </span>
+                  </a>
+                </sc-for>
+              </div>
+              <a href="MI-szolgaltatasok.html" onClick="{{ closeMenu }}" style="display:inline-flex;align-items:center;gap:6px;margin:16px 0 0 6px;font-weight:800;font-size:13px;color:#5C7285;text-decoration:none;" style-hover="color:#3B372F;">
+                Összes megoldás egy oldalon
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+
+            <!-- kiemelt kártya -->
+            <a href="index.html#regisztracio" onClick="{{ closeMenu }}" style="display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:#5C7285;border-radius:18px;padding:22px;text-decoration:none;color:#fff;min-height:190px;transition:background .15s;" style-hover="background:#4E6273;">
+              <div>
+                <span style="width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.16);display:flex;align-items:flex-end;justify-content:center;gap:2px;padding-bottom:8px;margin-bottom:14px;">
+                  <span style="font-family:'Quicksand';font-weight:700;font-size:18px;line-height:1;color:#fff;">M</span>
+                  <span style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.7);"></span><span style="width:4px;height:10px;border-radius:2px;background:rgba(255,255,255,.7);"></span></span>
+                </span>
+                <div style="font-family:'Quicksand';font-weight:700;font-size:19px;line-height:1.2;margin-bottom:7px;">Mi újság ma?</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.84);line-height:1.5;">Reggeli hírkivonat és teendők — a fontos dolgok egy átlátható helyen, minden reggel.</div>
+              </div>
+              <span style="display:inline-flex;align-items:center;gap:7px;align-self:flex-start;background:#fff;color:#5C7285;font-weight:800;font-size:13px;padding:9px 16px;border-radius:999px;">
+                Kezdd el ingyen
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="Hogyan-mukodik.html" style="{{ hogyanStyle }}">Hogyan működik</a>
+      <a href="Velemenyek.html" style="{{ velemenyekStyle }}">Vélemények</a>
+      <a href="Rolunk.html" style="{{ rolunkStyle }}">Rólunk</a>
+      <button onClick="{{ openModal }}" style="margin-left:8px;padding:9px 18px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:700;font-size:14px;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;" style-hover="background:#5C7285;">Bejelentkezés / Regisztráció</button>
+    </nav></sc-if>
+
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMobile }}" aria-label="Menü" style="width:44px;height:44px;border-radius:12px;border:1px solid #E7DDCB;background:#fff;display:grid;place-items:center;cursor:pointer;flex:none;color:#3B372F;" style-hover="background:#F7F1E6;">
+        <sc-if value="{{ mobileOpen }}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></sc-if>
+        <sc-if value="{{ mobileClosed }}" hint-placeholder-val="{{ true }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></sc-if>
+      </button>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ mobileDrawer }}" hint-placeholder-val="{{ false }}">
+    <div style="border-top:1px solid #E7DDCB;background:#FBF8F1;padding:12px 16px 22px;max-height:calc(100vh - 66px);overflow:auto;">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <a href="index.html" onClick="{{ closeMobile }}" style="{{ mHomeStyle }}">Főoldal</a>
+        <button onClick="{{ toggleMobileSub }}" style="{{ mSubTriggerStyle }}">
+          <span>MI szolgáltatások</span>
+          <svg style="{{ mSubCaretStyle }}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <sc-if value="{{ mobileSubOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:3px;padding:2px 0 8px 6px;">
+            <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+              <a href="{{ s.href }}" onClick="{{ closeMobile }}" style="{{ s.mRowStyle }}">
+                <span style="{{ s.mIconStyle }}">{{ s.icon }}</span>
+                <span style="display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;">
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="font-weight:800;font-size:14.5px;color:#3B372F;">{{ s.short }}</span><sc-if value="{{ s.isActive }}" hint-placeholder-val="{{ false }}"><span style="width:6px;height:6px;border-radius:50%;background:#7C93A6;flex:none;"></span></sc-if></span>
+                  <span style="{{ s.statusStyle }}">{{ s.statusLabel }}</span>
+                </span>
+              </a>
+            </sc-for>
+            <a href="MI-szolgaltatasok.html" onClick="{{ closeMobile }}" style="display:inline-flex;align-items:center;gap:6px;margin:6px 0 0 10px;font-weight:800;font-size:13.5px;color:#5C7285;text-decoration:none;">Összes megoldás egy oldalon<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          </div>
+        </sc-if>
+        <a href="Hogyan-mukodik.html" onClick="{{ closeMobile }}" style="{{ mHogyanStyle }}">Hogyan működik</a>
+        <a href="Velemenyek.html" onClick="{{ closeMobile }}" style="{{ mVelemenyekStyle }}">Vélemények</a>
+        <a href="Rolunk.html" onClick="{{ closeMobile }}" style="{{ mRolunkStyle }}">Rólunk</a>
+        <button onClick="{{ openModal }}" style="margin-top:8px;width:100%;padding:14px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:15px;border:none;cursor:pointer;font-family:inherit;" style-hover="background:#5C7285;">Bejelentkezés / Regisztráció</button>
+      </div>
+    </div>
+  </sc-if>
+</header>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:200;background:rgba(59,55,47,.5);backdrop-filter:blur(6px);display:grid;place-items:center;padding:24px;font-family:'Nunito',system-ui,sans-serif;">
+    <div onClick="{{ stopProp }}" style="width:100%;max-width:452px;background:#fff;border-radius:24px;padding:34px 32px 30px;box-shadow:0 30px 80px rgba(59,55,47,.34);position:relative;">
+      <button onClick="{{ closeModal }}" title="Bezárás" style="position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;border:none;background:#F5EFE3;color:#6E665A;display:grid;place-items:center;cursor:pointer;" style-hover="background:#EBE1D0;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div style="width:48px;height:48px;border-radius:14px;background:#7C93A6;display:flex;align-items:flex-end;justify-content:center;gap:2px;padding-bottom:10px;margin-bottom:18px;">
+        <span style="font-family:'Quicksand';font-weight:700;font-size:24px;line-height:1;color:#fff;">M</span>
+        <span style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="width:6px;height:6px;border-radius:50%;background:#C9D6E1;"></span><span style="width:5px;height:12px;border-radius:2px;background:#C9D6E1;"></span></span>
+      </div>
+
+      <h2 style="font-family:'Quicksand';font-size:24px;font-weight:700;letter-spacing:-.01em;margin:0 0 8px;">L&#233;pj be, &#233;s pr&#243;b&#225;ld ki</h2>
+      <p style="font-size:15px;color:#6E665A;line-height:1.55;margin:0 0 20px;">A dem&#243; lehet&#337;s&#233;gek els&#337;re <strong style="color:#3B372F;">Google-fi&#243;kkal (Gmail)</strong> &#233;rhet&#337;k el. &#205;gy egy helyen l&#225;tod a napt&#225;rad, a teend&#337;idet &#233;s az e-mailjeidet &#8212; val&#243;s adatokkal, azonnal kipr&#243;b&#225;lhat&#243;.</p>
+
+      <div style="display:flex;flex-direction:column;gap:12px;background:#F7F1E6;border:1px solid #E7DDCB;border-radius:16px;padding:16px 18px;margin-bottom:22px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="width:34px;height:34px;border-radius:10px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;flex:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+          <span style="font-size:14.5px;"><strong style="font-weight:800;">Napt&#225;r</strong> <span style="color:#9C9384;">&#8212; a mai esem&#233;nyeid</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="width:34px;height:34px;border-radius:10px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;flex:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <span style="font-size:14.5px;"><strong style="font-weight:800;">Teend&#337; lista</strong> <span style="color:#9C9384;">&#8212; a nyitott feladataid</span></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="width:34px;height:34px;border-radius:10px;background:#E4EAF0;display:grid;place-items:center;color:#5C7285;flex:none;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span>
+          <span style="font-size:14.5px;"><strong style="font-weight:800;">E-mailek</strong> <span style="color:#9C9384;">&#8212; a fontos &#252;zeneteid</span></span>
+        </div>
+      </div>
+
+      <button onClick="{{ closeModal }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:11px;padding:13px;border-radius:999px;border:1.5px solid #E0D6C4;background:#fff;color:#3B372F;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;" style-hover="background:#FBF8F1;border-color:#C9D6E1;">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.28-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+        Folytat&#225;s Google-fi&#243;kkal
+      </button>
+      <p style="text-align:center;font-size:12.5px;color:#9C9384;margin:14px 0 0;line-height:1.5;">A bel&#233;p&#233;ssel elfogadod az adatkezel&#233;si t&#225;j&#233;koztat&#243;t. E-mailes regisztr&#225;ci&#243; hamarosan.</p>
+    </div>
+  </div>
+</sc-if></x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:64},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;szolgaltatasok&quot;,&quot;hogyan&quot;,&quot;velemenyek&quot;,&quot;rolunk&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;'home'|'szolgaltatasok'|'hogyan'|'velemenyek'|'rolunk'&quot;},&quot;activeService&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;napindito&quot;,&quot;hirek&quot;,&quot;telegram&quot;,&quot;hivougynok&quot;,&quot;hangasszisztens&quot;,&quot;ai-kollegak&quot;,&quot;b2b-telefonia&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { menuOpen: false, modalOpen: false, mobileOpen: false, mobileSubOpen: false, vw: (typeof window !== 'undefined' ? window.innerWidth : 1200) };
+  componentDidMount() {
+    this._onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this._onResize);
+  }
+  componentWillUnmount() { if (this._onResize) window.removeEventListener('resize', this._onResize); }
+  openMenu = () => this.setState({ menuOpen: true });
+  closeMenu = () => this.setState({ menuOpen: false });
+  openModal = () => this.setState({ modalOpen: true, menuOpen: false, mobileOpen: false });
+  closeModal = () => this.setState({ modalOpen: false });
+  toggleMobile = () => this.setState(s => ({ mobileOpen: !s.mobileOpen }));
+  closeMobile = () => this.setState({ mobileOpen: false });
+  toggleMobileSub = () => this.setState(s => ({ mobileSubOpen: !s.mobileSubOpen }));
+  stopProp = (e) => { if (e && e.stopPropagation) e.stopPropagation(); };
+
+  renderVals() {
+    const open = this.state.menuOpen;
+    const active = this.props.active || 'home';
+
+    const icon = (...kids) => React.createElement('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, kids);
+    const p = (d, k) => React.createElement('path', { d, key: k });
+    const SERVICES = [
+      { slug: 'napindito', short: 'Napindító asszisztens', desc: 'Naptár, teendők, emlékeztetők egy reggeli levélben — ráadásként a híreid.', statusLabel: 'Elérhető', icon: icon(p('M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', 1), p('M9 22V12h6v10', 2)) },
+      { slug: 'telegram', short: 'Telegram hangalapú bot', desc: 'Beszélj a bottal — hangüzenetben kérdezz és utasíts.', statusLabel: 'Elérhető', icon: icon(p('m22 2-7 20-4-9-9-4Z', 1), p('M22 2 11 13', 2)) },
+      { slug: 'hivougynok', short: 'MI hívóügynök', desc: 'Telefonhívások intézése helyetted, természetes hangon.', statusLabel: 'Ötletelés alatt', icon: icon(p('M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z', 1)) },
+      { slug: 'hangasszisztens', short: 'Hangasszisztens teszt-app', desc: 'Kísérleti hangvezérelt felület a szolgáltatásokhoz.', statusLabel: 'Prototípus', icon: icon(p('M11 5 6 9H2v6h4l5 4V5Z', 1), p('M15.54 8.46a5 5 0 0 1 0 7.07', 2), p('M19.07 4.93a10 10 0 0 1 0 14.14', 3)) },
+      { slug: 'ai-kollegak', short: 'MI-kollégák / agent-csapat', desc: 'Együttműködő MI-ügynökök, akik feladatokat visznek végig.', statusLabel: 'Koncepció', icon: icon(p('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2', 1), React.createElement('circle', { cx: 9, cy: 7, r: 4, key: 2 }), p('M23 21v-2a4 4 0 0 0-3-3.87', 3), p('M16 3.13a4 4 0 0 1 0 7.75', 4)) },
+      { slug: 'b2b-telefonia', short: 'B2B telefónia asszisztens', desc: 'Céges telefonos ügyfélszolgálat MI-támogatással.', statusLabel: 'Tervben', icon: icon(p('M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z', 1), p('M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2', 2), p('M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2', 3), p('M10 6h4M10 10h4M10 14h4', 4)) },
+    ];
+
+    const pillBase = 'align-self:flex-start;display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;';
+    const STATUS = {
+      'Elérhető': 'color:#5E8A57;background:#E6F0DF;',
+      'Prototípus': 'color:#5C7285;background:#E4EAF0;',
+      'Ötletelés alatt': 'color:#BF9838;background:#F6EDD6;',
+      'Koncepció': 'color:#6C8B99;background:#E4EDF0;',
+      'Tervben': 'color:#9C9384;background:#F5EFE3;',
+    };
+
+    const linkBase = 'padding:8px 13px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;transition:all .15s;';
+    const inactive = linkBase + 'color:#6E665A;';
+    const activeStyle = linkBase + 'color:#5C7285;background:#E4EAF0;';
+
+    // aloldallal rendelkező megoldások közvetlen linkje; a többi a gyűjtő oldal horgonyára
+    const DETAIL = { napindito: 'MI-napindito.html', hirek: 'MI-hirek.html' };
+    const activeService = this.props.activeService || '';
+
+    const rowBase = 'display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:14px;text-decoration:none;color:#3B372F;transition:background .12s;';
+    const mRowBase = 'display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;text-decoration:none;color:#3B372F;';
+    const services = SERVICES.map((s) => {
+      const isActive = s.slug === activeService;
+      return {
+        slug: s.slug, short: s.short, desc: s.desc, statusLabel: s.statusLabel, icon: s.icon, isActive,
+        statusStyle: pillBase + (STATUS[s.statusLabel] || STATUS['Tervben']),
+        href: DETAIL[s.slug] || ('MI-szolgaltatasok.html#' + s.slug),
+        rowStyle: rowBase + (isActive ? 'background:#E4EAF0;' : ''),
+        iconStyle: 'width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;margin-top:1px;' + (isActive ? 'background:#7C93A6;color:#fff;' : 'background:#E4EAF0;color:#5C7285;'),
+        mRowStyle: mRowBase + (isActive ? 'background:#E4EAF0;' : ''),
+        mIconStyle: 'width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;' + (isActive ? 'background:#7C93A6;color:#fff;' : 'background:#E4EAF0;color:#5C7285;'),
+      };
+    });
+
+    const isMobile = this.state.vw < 860;
+    const mobileOpen = this.state.mobileOpen;
+    const mobileSubOpen = this.state.mobileSubOpen;
+    const mLinkBase = 'display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-radius:12px;font-weight:700;font-size:16px;text-decoration:none;font-family:inherit;background:none;border:none;width:100%;text-align:left;cursor:pointer;';
+    const mInactive = mLinkBase + 'color:#3B372F;';
+    const mActive = mLinkBase + 'color:#5C7285;background:#E4EAF0;';
+
+    return {
+      services,
+      openMenu: this.openMenu,
+      closeMenu: this.closeMenu,
+      modalOpen: this.state.modalOpen,
+      openModal: this.openModal,
+      closeModal: this.closeModal,
+      stopProp: this.stopProp,
+      isMobile,
+      isDesktop: !isMobile,
+      mobileOpen,
+      mobileClosed: !mobileOpen,
+      mobileDrawer: isMobile && mobileOpen,
+      mobileSubOpen,
+      toggleMobile: this.toggleMobile,
+      closeMobile: this.closeMobile,
+      toggleMobileSub: this.toggleMobileSub,
+      mHomeStyle: active === 'home' ? mActive : mInactive,
+      mHogyanStyle: active === 'hogyan' ? mActive : mInactive,
+      mVelemenyekStyle: active === 'velemenyek' ? mActive : mInactive,
+      mRolunkStyle: active === 'rolunk' ? mActive : mInactive,
+      mSubTriggerStyle: (active === 'szolgaltatasok' || mobileSubOpen) ? mActive : mInactive,
+      mSubCaretStyle: `transition:transform .18s;transform:rotate(${mobileSubOpen ? '180deg' : '0deg'});flex:none;`,
+      linkStyle: inactive,
+      homeStyle: active === 'home' ? activeStyle : inactive,
+      hogyanStyle: active === 'hogyan' ? activeStyle : inactive,
+      velemenyekStyle: active === 'velemenyek' ? activeStyle : inactive,
+      rolunkStyle: active === 'rolunk' ? activeStyle : inactive,
+      triggerStyle: `position:relative;display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;transition:all .15s;${(open || active === 'szolgaltatasok') ? 'background:#E4EAF0;color:#5C7285;' : 'color:#6E665A;'}`,
+      caretStyle: `transition:transform .18s;transform:rotate(${open ? '180deg' : '0deg'});`,
+      panelStyle: `position:absolute;left:0;right:0;top:100%;background:#fff;border-top:1px solid #E7DDCB;border-bottom:1px solid #E7DDCB;box-shadow:0 26px 50px rgba(59,55,47,.14);opacity:${open ? '1' : '0'};transform:translateY(${open ? '0' : '-8px'});pointer-events:${open ? 'auto' : 'none'};transition:opacity .17s,transform .17s;z-index:60;`,
+    };
+  }
+}
+</script>
+</body>
+</html>

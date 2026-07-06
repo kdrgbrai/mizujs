@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#FBF8F1;color:#3B372F;font-family:'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+</style>
+</helmet>
+
+<div style="min-width:0;">
+
+  <!-- ============ HEADER (közös komponens) ============ -->
+  <dc-import name="SiteHeader" active="szolgaltatasok" hint-size="100%,64px"></dc-import>
+
+  <!-- ============ INTRO ============ -->
+  <section id="szolgaltatasok" style="scroll-margin-top:84px;">
+    <div style="max-width:1180px;margin:0 auto;padding:clamp(44px,6vw,66px) clamp(16px,4vw,24px) 20px;text-align:center;">
+      <div style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#5C7285;background:#E4EAF0;padding:7px 14px;border-radius:999px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#7C93A6;"></span>MI szolgáltatások
+      </div>
+      <h1 style="font-family:'Quicksand';font-size:clamp(30px,5.4vw,46px);line-height:1.08;font-weight:700;letter-spacing:-.025em;margin:20px 0 16px;">Megoldások, amelyeket <span style="color:#5C7285;">Mesterséges Intelligencia</span> hajt</h1>
+      <p style="font-size:18px;color:#6E665A;max-width:620px;margin:0 auto;">A hírösszefoglalótól a hangalapú botokig — így dolgozik érted a MIzujs. Görgesd végig, vagy ugorj egyből arra, ami érdekel a felső menüből.</p>
+    </div>
+  </section>
+
+  <!-- ============ SOLUTION ROWS ============ -->
+  <section style="max-width:1180px;margin:0 auto;padding:36px clamp(16px,4vw,24px) 20px;display:flex;flex-direction:column;gap:26px;">
+    <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+      <div id="{{ s.slug }}" style="scroll-margin-top:96px;background:#fff;border:1px solid #E7DDCB;border-radius:26px;padding:clamp(22px,4vw,34px);display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,40px);align-items:center;">
+
+        <!-- text -->
+        <div style="{{ s.txtStyle }}">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+            <span style="font-family:'Quicksand';font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#9C9384;">{{ s.modul }}</span>
+            <span style="{{ s.statusStyle }}">{{ s.statusLabel }}</span>
+          </div>
+          <h2 style="font-family:'Quicksand';font-size:27px;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:0 0 12px;">{{ s.title }}</h2>
+          <p style="font-size:16px;color:#6E665A;margin:0 0 18px;line-height:1.6;">{{ s.desc }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+            <sc-for list="{{ s.features }}" as="f" hint-placeholder-count="3">
+              <span style="font-size:13px;font-weight:700;color:#5C7285;background:#F0F3F7;border:1px solid #DCE4EC;padding:5px 12px;border-radius:999px;">{{ f }}</span>
+            </sc-for>
+          </div>
+          <a href="{{ s.detailUrl }}" style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:15px;text-decoration:none;box-shadow:0 8px 18px rgba(92,114,133,.24);" style-hover="background:#5C7285;">
+            Tovább a részletekre
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- image -->
+        <div style="{{ s.imgStyle }}">
+          <image-slot id="svc-{{ s.slug }}" style="display:block;width:100%;height:280px;" shape="rounded" radius="18" placeholder="{{ s.imgLabel }}"></image-slot>
+        </div>
+
+      </div>
+    </sc-for>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section style="max-width:1180px;margin:0 auto;padding:30px clamp(16px,4vw,24px) clamp(48px,7vw,76px);">
+    <div style="background:#F7F1E6;border:1px solid #E7DDCB;border-radius:26px;padding:clamp(30px,5vw,48px) clamp(20px,4vw,40px);text-align:center;">
+      <h2 style="font-family:'Quicksand';font-size:clamp(24px,3.8vw,32px);font-weight:700;letter-spacing:-.02em;margin:0 0 10px;">Melyik megoldás illik hozzád?</h2>
+      <p style="font-size:17px;color:#6E665A;max-width:520px;margin:0 auto 26px;">Írj nekünk pár sort arról, mire lenne szükséged — segítünk kiválasztani a megfelelő modult.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;">
+        <a href="index.html#regisztracio" style="padding:14px 26px;border-radius:999px;background:#7C93A6;color:#fff;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 8px 20px rgba(92,114,133,.28);" style-hover="background:#5C7285;">Kezdd el ingyen</a>
+        <a href="index.html#kapcsolat" style="padding:13px 24px;border-radius:999px;border:1.5px solid #C9D6E1;background:#fff;color:#5C7285;font-weight:700;font-size:16px;text-decoration:none;" style-hover="background:#E4EAF0;border-color:#7C93A6;">Kapcsolatfelvétel</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LÁBLÉC (közös komponens) ============ -->
+  <dc-import name="SiteFooter" hint-size="100%,360px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { menuOpen: false };
+
+  openMenu = () => this.setState({ menuOpen: true });
+  closeMenu = () => this.setState({ menuOpen: false });
+
+  renderVals() {
+    const open = this.state.menuOpen;
+
+    const ST = {
+      elerheto:  { label: 'Elérhető',       bg: '#E6F0DF', color: '#5E8A57' },
+      proto:     { label: 'Prototípus',     bg: '#F6EBCF', color: '#BF9838' },
+      otlet:     { label: 'Ötletelés alatt', bg: '#DEE9EE', color: '#6C8B99' },
+      koncepcio: { label: 'Koncepció',      bg: '#EBE1D0', color: '#7A6F5C' },
+      tervben:   { label: 'Tervben',        bg: '#F5EFE3', color: '#9C9384' },
+    };
+    const statusStyle = (s) => `font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:${s.color};background:${s.bg};padding:4px 11px;border-radius:999px;`;
+
+    const RAW = [
+      {
+        slug: 'napindito', modul: 'Modul 1', st: ST.elerheto, icon: '🌅',
+        short: 'Napindító asszisztens',
+        title: 'Napindító asszisztens — naptár, teendők + hírek egy levélben',
+        desc: 'A napod fő eszköze: a naptárad, teendőid és emlékeztetőid minden reggel egyetlen tömör levélbe rendezve. Ráadásként a téged érdeklő rovatokból egy rövid, saját szavas hírkivonatot is kapsz — akár fel is olvassuk. Fiók-hozzáférés nélkül is kipróbálható demó-profilokkal.',
+        features: ['Naptár', 'Teendők + határidők', 'Emlékeztetők', 'Hírek ráadásként', 'Demó-profilok'],
+        imgLabel: 'képernyőkép: napindító levél',
+      },
+      {
+        slug: 'telegram', modul: 'Modul 2', st: ST.elerheto, icon: '🎤',
+        short: 'Telegram hangalapú bot',
+        title: 'Telegram hangalapú bot',
+        desc: 'Küldj egy hangüzenetet — a bot felismeri a szándékot, és ha kell, visszakérdez a pontosításhoz. A megerősített bejegyzés automatikusan a naptáradba vagy a teendőid közé kerül.',
+        features: ['Hangüzenet → szándék', 'Validáló visszakérdezés', 'Naptár / task bejegyzés'],
+        imgLabel: 'képernyőkép: Telegram bot',
+      },
+      {
+        slug: 'hivougynok', modul: 'Modul 3', st: ST.otlet, icon: '📞',
+        short: 'MI hívóügynök',
+        title: 'MI hívóügynök / ügyfélszolgálati hívás-kezelés',
+        desc: 'Kimenő hívásokat kezdeményez az érdeklődőknek, strukturáltan kikérdezi őket, majd összefoglalót küld az eredményről. Voice agent és hívás-kezelés egyben.',
+        features: ['Kimenő hívás', 'Strukturált kifaggatás', 'Összefoglaló küldése'],
+        imgLabel: 'illusztráció: hívás-kezelés',
+      },
+      {
+        slug: 'hangasszisztens', modul: 'Technikai alap', st: ST.proto, icon: '🔊',
+        short: 'Hangasszisztens teszt-app',
+        title: 'Hangasszisztens teszt-alkalmazás',
+        desc: 'A hívásalapú megoldások technikai alapja: egy tesztkörnyezet, amely a Vapi + Whisper + Claude + ElevenLabs stackre épül.',
+        features: ['Vapi', 'Whisper', 'Claude', 'ElevenLabs'],
+        imgLabel: 'diagram: hang-stack',
+      },
+      {
+        slug: 'ai-kollegak', modul: 'Koncepció', st: ST.koncepcio, icon: '👥',
+        short: 'MI-kollégák / agent-csapat',
+        title: 'MI-kollégák — agent-csapat koncepció',
+        desc: 'Egy Facilitator, valamint Sales / Support / Marketing / Dev-Ops MI-ügynökök csapata. Jóváhagyási munkafolyamat, csatorna-alapú üzenőfelület és „Meeting indítása" demó.',
+        features: ['Facilitator', 'Agent-csapat', 'Jóváhagyási folyamat', '„Meeting indítása"'],
+        imgLabel: 'illusztráció: agent-csapat',
+      },
+      {
+        slug: 'b2b-telefonia', modul: 'Önálló irány', st: ST.tervben, icon: '☎️',
+        short: 'B2B telefónia asszisztens',
+        title: 'B2B telefónia-alapú MI asszisztens',
+        desc: 'Bejövő hívás, Caller ID alapú azonosítás, majd hangutasítás közvetlenül a céges rendszerbe írva. Egy későbbi, önálló fejlesztési irány.',
+        features: ['Bejövő hívás', 'Caller ID azonosítás', 'Hangutasítás → rendszer'],
+        imgLabel: 'illusztráció: B2B telefónia',
+      },
+    ];
+
+    const icon = (...kids) => React.createElement('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' }, kids);
+    const p = (d, k) => React.createElement('path', { d, key: k });
+    const ICONS = {
+      'napindito': icon(p('M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', 1), p('M9 22V12h6v10', 2)),
+      'telegram': icon(p('m22 2-7 20-4-9-9-4Z', 1), p('M22 2 11 13', 2)),
+      'hivougynok': icon(p('M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z', 1)),
+      'hangasszisztens': icon(p('M11 5 6 9H2v6h4l5 4V5Z', 1), p('M15.54 8.46a5 5 0 0 1 0 7.07', 2), p('M19.07 4.93a10 10 0 0 1 0 14.14', 3)),
+      'ai-kollegak': icon(p('M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2', 1), React.createElement('circle', { cx: 9, cy: 7, r: 4, key: 2 }), p('M23 21v-2a4 4 0 0 0-3-3.87', 3), p('M16 3.13a4 4 0 0 1 0 7.75', 4)),
+      'b2b-telefonia': icon(p('M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z', 1), p('M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2', 2), p('M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2', 3), p('M10 6h4M10 10h4M10 14h4', 4)),
+    };
+
+    const services = RAW.map((s, i) => {
+      const reverse = i % 2 === 1;
+      return {
+        slug: s.slug, modul: s.modul, icon: ICONS[s.slug], short: s.short,
+        title: s.title, desc: s.desc, features: s.features, imgLabel: s.imgLabel,
+        statusLabel: s.st.label,
+        statusStyle: statusStyle(s.st),
+        detailUrl: s.slug === 'napindito' ? 'MI-napindito.html' : '#',
+        txtStyle: (reverse ? 'order:2;' : 'order:0;') + 'flex:1 1 320px;min-width:0;',
+        imgStyle: (reverse ? 'order:0;' : 'order:2;') + 'flex:1 1 320px;min-width:0;',
+      };
+    });
+
+    return {
+      services,
+      openMenu: this.openMenu,
+      closeMenu: this.closeMenu,
+      triggerStyle: `display:flex;align-items:center;gap:5px;padding:8px 13px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;transition:all .15s;${open ? 'background:#E4EAF0;color:#5C7285;' : 'color:#6E665A;'}`,
+      caretStyle: `transition:transform .18s;transform:rotate(${open ? '180deg' : '0deg'});`,
+      panelStyle: `position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(${open ? '0' : '-6px'});width:328px;background:#fff;border:1px solid #E7DDCB;border-radius:18px;box-shadow:0 20px 48px rgba(59,55,47,.16);opacity:${open ? '1' : '0'};pointer-events:${open ? 'auto' : 'none'};transition:opacity .16s,transform .16s;z-index:60;overflow:hidden;`,
+    };
+  }
+}
+</script>
+</body>
+</html>
